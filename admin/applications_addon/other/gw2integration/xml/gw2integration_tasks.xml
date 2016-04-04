@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<export>
+  <group>
+    <row>
+      <task_id>90</task_id>
+      <task_title>Resynchronize Database with GW2 API</task_title>
+      <task_file>resync_gw2_api.php</task_file>
+      <task_next_run>0</task_next_run>
+      <task_week_day>-1</task_week_day>
+      <task_month_day>-1</task_month_day>
+      <task_hour>1</task_hour>
+      <task_minute>0</task_minute>
+      <task_cronkey>55122cfe66805e2a65c8881e98f0fa03</task_cronkey>
+      <task_log>1</task_log>
+      <task_description>Resynchronize database with the GW2 API</task_description>
+      <task_enabled>1</task_enabled>
+      <task_key>resync_gw2_api</task_key>
+      <task_safemode>0</task_safemode>
+      <task_locked>0</task_locked>
+      <task_application>gw2integration</task_application>
+    </row>
+  </group>
+</export>
