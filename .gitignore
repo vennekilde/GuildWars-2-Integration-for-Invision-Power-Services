@@ -1,1 +1,10 @@
 /admin/applications_addon/other/shoutbox/
+
+#netbeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+.nb-gradle/
