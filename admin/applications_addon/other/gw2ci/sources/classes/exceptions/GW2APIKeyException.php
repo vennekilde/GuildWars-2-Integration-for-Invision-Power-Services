@@ -44,5 +44,4 @@ class GW2APIKeyException extends GW2APIException {
     public function __toString() {
         return __CLASS__ . ": [{$this->getCode()}]: {$this->getMessage()} APIKey: {$this->getApiKey()} HTTP Code: {$this->getHttpCode()} Response: {$this->getResponse()}\n";
     }
-
 }

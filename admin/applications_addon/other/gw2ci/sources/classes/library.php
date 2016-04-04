@@ -31,135 +31,6 @@ class GW2CILibrary
 	 */
 	private $libraryLoaded = false;
 	
-	/**
-	 * Post Handler class
-	 *
-	 * @access	public
-	 * @var		object
-	 */
-	public $editor;
-	
-	/**
-	* Parser Class
-	*
-	* @access	public
-	* @var		object
-	*/
-	public $parser;
-	
-	/**
-	 * Ajax Routines
-	 *
-	 * @access	public
-	 * @var		object
-	 */
-	public $classAjax;
-	
-	/**
-	 * Total Shouts
-	 *
-	 * @access	public
-	 * @var		integer
-	 */
-	public $shout_total = 0;
-	
-	/**
-	 * Shouts cache
-	 *
-	 * @access	private
-	 * @var		array
-	 */
-	private $shouts_cache;
-	
-	/**
-	 * max shout length allowed in bytes
-	 * 
-	 * @access	public
-	 * @var		integer
-	 */
-	public $shout_max_length;
-	
-	/**
-	 * Inactivity cutoff (in minutes)
-	 *
-	 * @access	public
-	 * @var		integer
-	 */
-	public $inactivity_cutoff;
-	
-	/**
-	 * Shouts order (asc|desc)
-	 *
-	 * @access	public
-	 * @var		string
-	 */
-	public $shouts_order;
-	
-	/**
-	 * Global shoutbox on?
-	 *
-	 * @access	public
-	 * @var		boolean
-	 */
-	public $global_on = false;
-	
-	/**
-	 * Preferences array
-	 *
-	 * @access	public
-	 * @var		array
-	 */
-	public $prefs = array( 'shoutbox_height'        => 0,
-						   'shoutbox_gheight'       => 0,
-						   'global_display'         => 1,
-						   'enter_key_shout'        => 1,
-						   'enable_quick_commands'  => 1,
-						   'display_refresh_button' => 1
-						  );
-	
-	/**
-	 * javascript preferences
-	 *
-	 * @access	public
-	 * @var		array
-	 */
-	public $prefs_js = array();
-	
-	/**
-	 * Moderator ID (if any)
-	 *
-	 * @access	public
-	 * @var		integer
-	 */
-	public $moderator = 0;
-	
-	/**
-	 * Moderator permsissions for JS
-	 *
-	 * @access	public
-	 * @var		string
-	 */
-	public $mod_perms_js = '';
-	
-	/**
-	 * Moderator permissions (for PHP)
-	 *
-	 * @access	public
-	 * @var		array
-	 */
-	public $mod_perms = array();
-	
-	/**
-	 * Contains the ignored users of the member
-	 *
-	 * @access	public
-	 * @var		array
-	 * @since	1.1.0 RC1
-	 */
-	public $ignoredUsers = array();
-	
-	private $cached_members = array();
-    
     /**
      *
      * @var GW2Communicator
@@ -212,31 +83,33 @@ class GW2CILibrary
     function resyncWithGW2API(){
         $this->DB->build( array('select'   => 'api.*',
                                 'from'     => array( 'gw2_api_keys' => 'api' ),
-                                'where'    => 'api.u_last_success > NOW() - INTERVAL 3 WEEK ',
-                                'limit'    => array( 0, $this->settings['shoutbox_shouts_limit'] )
+                                'where'    => 'api.u_last_success > NOW() - INTERVAL 3 WEEK '
         )		);
-        $noCache = $this->DB->execute();
+        $queryResult = $this->DB->execute();
         
         //Check if empty
-        if ( $this->DB->getTotalRows($noCache) )
+        if ( $this->DB->getTotalRows($queryResult) )
         {
             //Loop through each API key
-            while ( $row = $this->DB->fetch($noCache) )
+            while ( $row = $this->DB->fetch($queryResult) )
             {
                 $userId = $row["u_id"];
                 $apiKey = $row["u_api_key"];
                 $permittedEndpoints = explode(",", $row["u_api_key_permissions"]);
                 $success = $this->resyncWithPermittedEndpoints($userId, $apiKey, $permittedEndpoints);
                 if($success){
-                    $this->updateLastSuccessfulSync($apiKey);
+                    $this->updateLastSuccessfulSync($userId);
                 }
             }
         }
     }
     
-    function updateLastSuccessfulSync($apiKey){
-        //@TODO make this actually work
-		$this->DB->update( 'gw2_api_key', $values);
+    function updateLastSuccessfulSync($userId){
+		$this->DB->query("
+                UPDATE gw2_api_key
+                SET u_last_success = CURRENT_TIMESTAMP
+                WHERE u_id = ".$userId."
+            ");
     }
     
     /**
@@ -255,7 +128,18 @@ class GW2CILibrary
                         $success = true;
                     }
                     break;
-                case "character":
+                case "characters":
+                    $result = $this->resyncCharactersEndpoint($userId, $apiKey);
+                    if($result){
+                        $success = true;
+                    }
+                    break;
+                case "pvp":
+                    $result = $this->resyncPVPStatsEndpoint($userId, $apiKey);
+                    $result2 = $this->resyncPVPGames($userId, $apiKey);
+                    if($result || $result2){
+                        $success = true;
+                    }
                     break;
             }
         }
@@ -301,17 +185,31 @@ class GW2CILibrary
      * @param array $values
      */
     function persistAccountData($values){
-		$this->DB->insert( 'gw2_account', $values);
+		$this->DB->replace( 'gw2_account', $values, array("u_id"));
     }
     
+    /**
+     * 
+     * @param integer $userId
+     * @param array $guilds
+     */
     function persistGuildMemberships($userId, $guilds){
+        //Remove no longer valid guild memberships
+        $this->DB->query("
+                DELETE FROM gw2_guild_membership
+                WHERE u_id = " . $userId . "
+                    AND NOT IN (" . implode(",","'" . $guilds . "'") . ")
+                ");
+        
+        //Add guild memberships for the user
         foreach($guilds as $guildUUID){
-            $this->DB->insert( 'gw2_guild_membership', array(
+            $this->DB->replace( 'gw2_guild_membership', array(
                 "u_id" => $userId,
                 "g_uuid" => $guildUUID
             ));
         }
     }
+    
     
     /**
      * 
@@ -319,15 +217,14 @@ class GW2CILibrary
      * @return integer Description
      */
     function getAccountAccessIdFromString($string){
-        //@TODO change strings to match the real ones
         switch($string){
-            case "Normal":
+            case "GuildWars2":
                 return 0;
             case "HeartOfThorns":
                 return 1;
-            case "FreeToPlay":
+            case "PlayForFree":
                 return 2;
-            case "Banned":
+            case "None":
                 return 3;
         }
         return -1;
@@ -356,8 +253,7 @@ class GW2CILibrary
                     'c_deaths'     => $character["deaths"]
                 );
                 $this->persistCharacterData($values);
-                //@TODO $characterId needs to actually be set
-                $this->persistCharacterCraftingProfessions($characterId, $json["crafting"]);
+                $this->persistCharacterCraftingProfessions($character["name"], $json["crafting"]);
             }
         } catch (Exception $e) {
             return false;
@@ -370,18 +266,18 @@ class GW2CILibrary
      * @param array $values
      */
     function persistCharacterData($values){
-		$this->DB->insert( 'gw2_characters', $values);
+		$this->DB->replace( 'gw2_characters', $values, array("c_name"));
     }
     
     /**
      * 
-     * @param integer $characterId
+     * @param string $characterName
      * @param arrau $craftingProfessionValues
      */
-    function persistCharacterCraftingProfessions($characterId, $craftingProfessionValues){
+    function persistCharacterCraftingProfessions($characterName, $craftingProfessionValues){
         foreach($craftingProfessionValues AS $craftingProfessionData){
             $values = array(
-                "c_id" => $characterId,
+                "c_name" => $characterName,
                 "cr_dicipline" => $craftingProfessionData["dicipline"],
                 "cr_rating" => $craftingProfessionData["rating"],
                 "cr_active" => $craftingProfessionData["active"],
@@ -395,7 +291,7 @@ class GW2CILibrary
      * @param array $values
      */
     function persistCharacterCraftingProfession($values){
-		$this->DB->insert( 'gw2_character_crafting', $values);
+		$this->DB->replace( 'gw2_character_crafting', $values, array("c_id"));
     }
     
     /**
@@ -404,7 +300,7 @@ class GW2CILibrary
      * @return integer Description
      */
     function getRaceIdFromString($string){
-        return array_search($string, GW2CILibrary::RACE_NAMES);
+        return array_search(lcfirst($string), GW2CILibrary::RACE_NAMES);
     }
     
     /**
@@ -413,7 +309,7 @@ class GW2CILibrary
      * @return integer Description
      */
     function getGenderIdFromString($string){
-        return $string == "Male" ? 0 : 1;
+        return strcasecmp($string, "male") == 0 ? 0 : 1;
     }
     /**
      * 
@@ -421,7 +317,7 @@ class GW2CILibrary
      * @return integer Description
      */
     function getProfessionIdFromString($string){
-        return array_search($string, GW2CILibrary::PROFESSION_NAMES);
+        return array_search(lcfirst($string), GW2CILibrary::PROFESSION_NAMES);
     }
     
     /**
@@ -498,7 +394,7 @@ class GW2CILibrary
      * @param array $values
      */
     function persistPVPStats($values){
-		$this->DB->insert( 'gw2_pvp_stats', $values);
+		$this->DB->update( 'gw2_pvp_stats', $values, array(""));
     }
     
     /**
@@ -506,7 +402,33 @@ class GW2CILibrary
      * @param array $values
      */
     function persistProfessionPVPStats($values){
-		$this->DB->insert( 'gw2_pvp_profession_stats', $values);
+		$this->DB->replace( 'gw2_pvp_profession_stats', $values, array("u_id", "pps_profession"));
+    }
+    
+    /**
+     * 
+     * @param integer $userId
+     */
+    function getLatestGameUUID($userId){
+        $this->DB->build( array('select'   => 'games.game_uuid',
+                                'from'     => array( 'gw2_pvp_games' => 'games' ),
+                                'where'    => 'games.u_id = '.$userId,
+                                'order'    => 'games.game_ended DESC',
+                                'limit'    => array(1)
+        )		);
+        $queryResult = $this->DB->execute();
+        
+        //Check if empty
+        if ( $this->DB->getTotalRows($queryResult) )
+        {
+            //Loop through each API key
+            while ( $row = $this->DB->fetch($queryResult) )
+            {
+                $latestGameUUID = $row["game_uuid"];
+                return $latestGameUUID;
+            }
+        }
+        return null;
     }
     
     /**
@@ -515,26 +437,88 @@ class GW2CILibrary
      */
     function resyncPVPGames($userId, $apiKey){
         try{
-            $gw2Response = $this->gw2Com->requestPVPGames($apiKey);
-            $json = $gw2Response->getJsonResponse();
+            $gw2ResponseGameUUIDs = $this->gw2Com->requestPVPGameUUIDs($apiKey);
+            $gameUUIDsJson = $gw2ResponseGameUUIDs->getJsonResponse();
+            $latestGameUUID = $this->getLatestGameUUID($userId);
             
-            $values = array(
-                'u_id'              => $userId,
-                'game_uuid'         => $json["id"],
-                'game_map_id'       => $json["map"],
-                'game_started'      => $json["started"],
-                'game_ended'        => $json["ended"],
-                'game_result'       => $json["result"],
-                'game_team'         => $json["team"],
-                'game_profession'   => $json["profession"],
-                'game_score_red'    => $json["score"]["red"],
-                'game_score_blue'   => $json["score"]["blue"]
-            );
-            $this->persistPVPGame($values);
+            //Determine which games are already retrieved
+            $retriveGames = false;
+            $retriveGameUUIDs = array();
+            if($latestGameUUID != null){
+                foreach($gameUUIDsJson as $gameUUID){
+                    if($gameUUID == $latestGameUUID){
+                        break;
+                    } else {
+                        $retriveGameUUIDs[] = $gameUUID;
+                        $retriveGames = true;
+                    }
+                }
+            } else{
+                //No games persisted, so persist all
+                $retriveGameUUIDs = $gameUUIDsJson;
+                $retriveGames = true;
+            }
+            
+            if($retriveGames){
+                $gw2Response = $this->gw2Com->requestPVPGameByUUIDs($retriveGameUUIDs, $apiKey);
+                $this->persistPVPGames($gw2Response->getJsonResponse());
+            }
         } catch (Exception $e) {
             return false;
         }
         return true;
+    }
+    
+    /**
+     * 
+     * @param integer $userId
+     * @param array $pvpGames
+     */
+    function persistPVPGames($userId, $pvpGames){
+        foreach($pvpGames as $game){
+            $values = array(
+                'u_id'              => $userId,
+                'game_uuid'         => $game["id"],
+                'game_map_id'       => $game["map_id"],
+                'game_started'      => $game["started"],
+                'game_ended'        => $game["ended"],
+                'game_result'       => $this->getPVPGameResultIdFromString($game["result"]),
+                'game_team'         => $this->getPVPTeamIdFromString($game["team"]),
+                'game_profession'   => $this->getProfessionIdFromString($game["profession"]),
+                'game_score_red'    => $game["scores"]["red"],
+                'game_score_blue'   => $game["scores"]["blue"]
+            );
+            $this->persistPVPGame($values);
+        }
+    }
+    
+    /**
+     * 
+     * @param string $result
+     * @return integer Description
+     */
+    function getPVPGameResultIdFromString($result){
+        switch($result){
+            case "Defeat":
+                return 0;
+            case "Victory":
+                return 1;
+        }
+        return -1;
+    }
+    /**
+     * 
+     * @param string $team
+     * @return integer Description
+     */
+    function getPVPTeamIdFromString($team){
+        switch($team){
+            case "Blue":
+                return 0;
+            case "Red":
+                return 1;
+        }
+        return -1;
     }
     
     /**

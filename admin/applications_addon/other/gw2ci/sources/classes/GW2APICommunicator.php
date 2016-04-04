@@ -51,6 +51,15 @@ class GW2APICommunicator {
         static::$loggingUtils = new LoggingUtils();
     }
     
+    /**
+     * 
+     * @param type $endPoint
+     * @param type $apiKey
+     * @param type $retries
+     * @param type $timeout
+     * @return GW2ResponseEvent
+     * @throws GW2APIKeyException
+     */
     public static function makeRequestWithRetry($endPoint, $apiKey, $retries = 3, $timeout = 5){
         for($i = 0; $i < $retries; $i++){
             try{
@@ -70,9 +79,9 @@ class GW2APICommunicator {
     
     /**
      * Make a request for the GW2 JSON API
-     * @param type $endPoint
-     * @param type $apiKey
-     * @return JSON
+     * @param string $endPoint
+     * @param string $apiKey
+     * @return GW2ResponseEvent
      */
     public static function makeRequest($endPoint, $apiKey, $timeout = 5) {
         //Prepare cURL request
@@ -118,8 +127,8 @@ class GW2APICommunicator {
     
     /**
      * Request information from the account endpoint
-     * @param type $apiKey
-     * @return JSON
+     * @param string $apiKey
+     * @return GW2ResponseEvent
      * @throws GW2APIKeyException
      */
     public static function requestAccountInfo($apiKey, $retries = 3) {
@@ -139,8 +148,8 @@ class GW2APICommunicator {
     
     /**
      * Request information from the tokeninfo endpoint
-     * @param type $apiKey
-     * @return JSON
+     * @param string $apiKey
+     * @return GW2ResponseEvent
      * @throws GW2APIKeyException
      */
     public static function requestAPIKeyInfo($apiKey, $retries = 3) {
@@ -164,7 +173,7 @@ class GW2APICommunicator {
     /**
      * Request names of characters from the characters endpoint
      * @param type $apiKey
-     * @return JSON
+     * @return GW2ResponseEvent
      * @throws GW2APIKeyException
      */
     public static function requestCharactersNames($apiKey, $retries = 3) {
@@ -179,8 +188,8 @@ class GW2APICommunicator {
     
     /**
      * Request all data of each of the users characters from the characters endpoint
-     * @param type $apiKey
-     * @return JSON
+     * @param string $apiKey
+     * @return GW2ResponseEvent
      * @throws GW2APIKeyException
      */
     public static function requestCharactersData($apiKey, $retries = 3) {
@@ -203,6 +212,82 @@ class GW2APICommunicator {
             ) {
                 throw new MalformedGW2ResponseException($gw2ResponseEvent, $apiKey, $json, $gw2ResponseEvent->getHttpResponseCode(), 3);
             }
+        }
+        return $gw2ResponseEvent;
+    }
+    
+    /**
+     * 
+     * @param string $apiKey
+     * @return GW2ResponseEvent
+     * @throws GW2APIKeyException
+     */
+    public static function requestPVPStats($apiKey, $retries = 3) {
+        $gw2ResponseEvent = GW2APICommunicator::makeRequestWithRetry("v2/pvp/stats", $apiKey, $retries);
+        $json = $gw2ResponseEvent->getJsonResponse();
+        
+        if (empty($json)){
+            throw new GW2APIKeyException("PVP stats found", $apiKey, $json, $gw2ResponseEvent->getHttpResponseCode(), -1);
+        }
+        
+        if (
+                !isset($json["pvp_rank"]) ||
+                !isset($json["pvp_rank_points"]) ||
+                !isset($json["pvp_rank_rollovers"]) ||
+                !isset($json["aggregate"]) ||
+                !isset($json["ladders"])
+        ) {
+            throw new MalformedGW2ResponseException($gw2ResponseEvent, $apiKey, $json, $gw2ResponseEvent->getHttpResponseCode(), 3);
+        }
+        return $gw2ResponseEvent;
+    }
+    
+    /**
+     * 
+     * @param string $apiKey
+     * @return GW2ResponseEvent
+     * @throws GW2APIKeyException
+     */
+    public static function requestPVPGameUUIDs($apiKey, $retries = 3) {
+        $gw2ResponseEvent = GW2APICommunicator::makeRequestWithRetry("v2/pvp/games", $apiKey, $retries);
+        $json = $gw2ResponseEvent->getJsonResponse();
+        
+        if (empty($json)){
+            throw new GW2APIKeyException("No PVP games found", $apiKey, $json, $gw2ResponseEvent->getHttpResponseCode(), -1);
+        }
+        
+        if (
+                !is_array($json)
+        ) {
+            throw new MalformedGW2ResponseException($gw2ResponseEvent, $apiKey, $json, $gw2ResponseEvent->getHttpResponseCode(), 3);
+        }
+        return $gw2ResponseEvent;
+    }
+    
+    /**
+     * 2015-12-05T23:56:13.335Z
+     * 2015-12-05T23:40:54.676Z
+     * @param array $gameUUID
+     * @param string $apiKey
+     * @return GW2ResponseEvent
+     * @throws GW2APIKeyException
+     */
+    public static function requestPVPGameByUUIDs($gameUUIDs, $apiKey, $retries = 3) {
+        $gw2ResponseEvent = GW2APICommunicator::makeRequestWithRetry("v2/pvp/games?ids=".implode(",",$gameUUIDs), $apiKey, $retries);
+        $json = $gw2ResponseEvent->getJsonResponse();
+        
+        if (empty($json)){
+            throw new GW2APIKeyException("No PVP games found", $apiKey, $json, $gw2ResponseEvent->getHttpResponseCode(), -1);
+        }
+        
+        if (
+                !isset($json["pvp_rank"]) ||
+                !isset($json["pvp_rank_points"]) ||
+                !isset($json["pvp_rank_rollovers"]) ||
+                !isset($json["aggregate"]) ||
+                !isset($json["ladders"])
+        ) {
+            throw new MalformedGW2ResponseException($gw2ResponseEvent, $apiKey, $json, $gw2ResponseEvent->getHttpResponseCode(), 3);
         }
         return $gw2ResponseEvent;
     }
