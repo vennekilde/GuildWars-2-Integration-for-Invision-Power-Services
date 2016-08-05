@@ -1,0 +1,161 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "gw2_guild",
+            "a_username",
+            {
+                "name": "g_tag",
+                "type": "VARCHAR",
+                "length": 4,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "renameTable",
+        "params": [
+            "gw2_character_crafting",
+            "gw2integration_gw2_character_crafting"
+        ]
+    },
+    "3": {
+        "method": "renameTable",
+        "params": [
+            "gw2_guild",
+            "gw2integration_gw2_guilds"
+        ]
+    },
+    "4": {
+        "method": "renameTable",
+        "params": [
+            "gw2integration_gw2_character_crafting",
+            "gw2integration_character_crafting"
+        ]
+    },
+    "5": {
+        "method": "renameTable",
+        "params": [
+            "gw2_account",
+            "gw2integration_account"
+        ]
+    },
+    "6": {
+        "method": "renameTable",
+        "params": [
+            "gw2integration_gw2_guilds",
+            "gw2integration_guilds"
+        ]
+    },
+    "7": {
+        "method": "renameTable",
+        "params": [
+            "gw2_api_keys",
+            "gw2integration_api_keys"
+        ]
+    },
+    "8": {
+        "method": "renameTable",
+        "params": [
+            "gw2_characters",
+            "gw2integration_characters"
+        ]
+    },
+    "9": {
+        "method": "renameTable",
+        "params": [
+            "gw2_guild_membership",
+            "gw2integration_guild_membership"
+        ]
+    },
+    "10": {
+        "method": "renameTable",
+        "params": [
+            "gw2_pvp_games",
+            "gw2integration_pvp_games"
+        ]
+    },
+    "11": {
+        "method": "renameTable",
+        "params": [
+            "gw2_pvp_profession_stats",
+            "gw2integration_pvp_profession_stats"
+        ]
+    },
+    "12": {
+        "method": "renameTable",
+        "params": [
+            "gw2_pvp_seasons",
+            "gw2integration_pvp_seasons"
+        ]
+    },
+    "13": {
+        "method": "renameTable",
+        "params": [
+            "gw2_pvp_season_divisions",
+            "gw2integration_pvp_season_divisions"
+        ]
+    },
+    "14": {
+        "method": "renameTable",
+        "params": [
+            "gw2_pvp_season_standing",
+            "gw2integration_pvp_season_standing"
+        ]
+    },
+    "15": {
+        "method": "renameTable",
+        "params": [
+            "gw2_pvp_stats",
+            "gw2integration_pvp_stats"
+        ]
+    },
+    "16": {
+        "method": "addColumn",
+        "params": [
+            "gw2integration_guilds",
+            {
+                "name": "g_last_synched",
+                "type": "TIMESTAMP",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "17": {
+        "method": "addColumn",
+        "params": [
+            "gw2integration_characters",
+            {
+                "name": "c_title",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}
