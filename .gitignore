@@ -1,7 +1,7 @@
 /admin/applications_addon/other/shoutbox/
 
 #netbeans
-nbproject/private/
+nbproject/
 build/
 nbbuild/
 dist/
