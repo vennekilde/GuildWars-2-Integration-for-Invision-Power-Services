@@ -1,0 +1,14 @@
+{
+    "profile_hook": {
+        "type": "S",
+        "class": "\\IPS\\Theme\\class_core_front_profile"
+    },
+    "profile_settings_hook": {
+        "type": "S",
+        "class": "\\IPS\\Theme\\class_core_admin_settings"
+    },
+    "front_topics_hook": {
+        "type": "S",
+        "class": "\\IPS\\Theme\\class_forums_front_topics"
+    }
+}

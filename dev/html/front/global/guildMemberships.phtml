@@ -1,0 +1,17 @@
+<ips:template parameters="$guilds" />
+{{if $guilds != null}}
+<div id="guildMemberships">
+    <h3>Guild Memberships</h3>
+    <ul class="ipsDataList ipsDataList_reducedSpacing cProfileFields">
+        {{foreach $guilds as $guild}}
+        <li class="ipsDataItem">
+            <span class="ipsDataItem_generic ipsType_break gw2_guild_entry">
+                <img src='http://guilds.gw2w2w.com/{$guild["g_uuid"]}.svg' style="width: 24px"> 
+                <div class="guild_tag">[{$guild["g_tag"]}]</div> 
+                {$guild["g_name"]}
+            </span>
+        </li>
+        {{endforeach}}
+    </ul>
+</div>
+{{endif}}

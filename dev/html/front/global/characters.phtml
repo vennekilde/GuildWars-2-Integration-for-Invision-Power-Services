@@ -1,0 +1,52 @@
+<ips:template parameters="$characters" />
+{{if $characters != null}}
+<div id="latest_games">
+    <h3>Charecters</h3>
+    <table class='ipsTable ipsMatrix ipsTable_zebra ipsBox gw2iMatrix' style="/*text-align: center;*/">
+        <thead>
+            <tr>
+                <th>Profession</th>
+                <th>Name</th>
+                <th>Level</th>
+                <th class="ipsResponsive_hidePhone">Created</th>
+                <th class="ipsResponsive_hidePhone">Playtime</th>
+                <th>Guild</th>
+                <th class="ipsResponsive_hidePhone">Race</th>
+                <th class="ipsResponsive_hideTablet ipsResponsive_hidePhone">Gender</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {{foreach $characters as $character}}
+            <tr>
+                <td>
+                    <img title="Profession" src='{resource="img/profession_{$character['c_profession']}.png" app="gw2integration" location="front"}' height="36px"/>
+                </td>
+                <td style="font-weight: bold">
+                    {$character["c_name"]}
+                </td>
+                <td>
+                    {$character["c_level"]}
+                </td>
+                <td class="ipsResponsive_hidePhone">
+                    {$character["c_created"]}
+                </td>
+                <td class="ipsResponsive_hidePhone">
+                    {$character["c_age_text"]}
+                </td>
+                <td>
+                    <img alt="{$character["g_name"]}" title="{$character["g_name"]}" src='http://guilds.gw2w2w.com/{$character["g_uuid"]}.svg' style="width: 24px"> 
+                </td>
+                <td class="ipsResponsive_hidePhone">
+                {{$raceName = ucfirst(array_values(\IPS\gw2integration\utils\DataConversionUtils::$RACE_NAMES)[$character['c_race']]);}}
+                    <img title="{$raceName}" src='{resource="img/race_{$character['c_race']}.png" app="gw2integration" location="front"}' height="24px"/>
+                </td>
+                <td class="ipsResponsive_hideTablet ipsResponsive_hidePhone">
+                    <img title="{$character['c_gender'] == 0 ? "Male" : "Female"}" src='{resource="img/gender_{$character['c_gender']}.png" app="gw2integration" location="front"}' height="24px"/>
+                </td>
+            </tr>
+        {{endforeach}}
+        </tbody>
+    </table>
+</div>
+{{endif}}

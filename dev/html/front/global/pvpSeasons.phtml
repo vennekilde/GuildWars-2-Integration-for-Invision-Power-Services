@@ -1,0 +1,44 @@
+<ips:template parameters="$seasons" />
+<div id="seasons">
+    {{$hideSeason = false;}}
+    {{foreach $seasons as $season}}
+    {{if $season['season_current_division'] != null}}
+    <div id='season_{$season['season_uuid']}' class="season" {{if $hideSeason}} style="display: none"{{endif}}>{{$hideSeason = true;}}
+        <h3>{$season['season_name']}</h3>
+        <div style="position: relative;">
+            {{if $season['season_current_repeats'] > 0}}<span title="PvP {$season['division_name']}\nDivision Repeats: x{$season['season_current_repeats']}"><div class='division_rollover' style="font-size: 18px;">x{$season["season_current_repeats"]}</div></span>{{endif}}
+            <img class="division_img" src='{resource="img/division_{$season['season_current_division']}.png" app="gw2integration" location="front"}'/>
+        </div>
+        <div class="division_pip_container">
+            <div class="division_tier_container">
+            {{for $i = 0; $i < ($season['season_current_tier'] * $season['division_pips_per_tier'] + $season['season_current_points']); $i++}}
+            {{if $i % $season['division_pips_per_tier'] == 0}}
+            </div><div class="division_tier_container">
+            {{endif}}
+            <div class="division_pip" style="background-image: url({$season['division_pip_icon']})"></div>
+            {{endfor}}
+
+            {{for $i = $i; $i < ($season['division_tiers'] * $season['division_pips_per_tier']); $i++}}
+            {{if $i % $season['division_pips_per_tier'] == 0}}
+            </div><div class="division_tier_container">
+            {{endif}}
+            <div class="division_pip_ng" style="background-image: url({$season['division_pip_icon']})"></div>
+            {{endfor}}
+            </div>
+        </div>
+    </div>
+    {{endif}}
+    {{endforeach}}
+    {{if $hideSeason}} <!-- will only be true if the user has participated in a season-->
+        <h3>Previous Seasons</h3>
+        <div class='prev_season_container'>
+            {{foreach $seasons as $season}}
+            {{if $season['season_current_division'] != null}}
+                <div id="prev_division_{$season["season_uuid"]}" class="prev_division" data-controller="gw2integration.front.gw2.pvpseasons">
+                    <img class="division_img" src='{resource="img/division_{$season['season_current_division']}.png" app="gw2integration" location="front"}'/>
+                </div>
+            {{endif}}
+            {{endforeach}}
+        </div>
+    {{endif}}
+</div>

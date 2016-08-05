@@ -1,0 +1,43 @@
+<ips:template parameters="$gw2Data" />
+<div class='ipsTabs ipsClearfix' id='elTabBar2' data-ipsTabBar data-ipsTabBar-contentArea='#elTabContent2'>
+	<a href='#elTabBar' data-action='expandTabs'><i class='icon-caret-down'></i></a>
+	<ul role='tablist'>
+		<li role='presentation'>
+			<a href='{$gw2Data->member->url()->setQueryString( 'tab', 'node_gw2integration_gw2integration' )}' id='elTabAccountTab' role='tab' class='ipsTabs_item' aria-selected="true">
+				Overview
+			</a>
+		</li>
+		<li role='presentation'>
+            <a href='{$gw2Data->member->url()->setQueryString( 'tab', 'node_gw2integration_gw2integration' )}' id='elTabPvPTab' role='tab' class='ipsTabs_item'>
+				PvP
+			</a>
+		</li>
+	</ul>
+</div>
+
+<!-- The tab panel wrapper -->
+<div id='elTabContent2'>
+    <div id='ipsTabs_elTabBar2_elTabAccountTab_panel' class='ipsTabs_panel ipsAreaBackground_reset'>
+        <div class="clearfix" style="width: 100%">
+            <div class="ao_container_left">
+                {template="accountOverviewDetailed" group="global" app="gw2integration" location="front" params="$gw2Data->account, $gw2Data->pvpStats, $gw2Data->seasonStats"}
+            </div>
+            <div class="ao_container_right">
+                {template="guildMemberships" group="global" app="gw2integration" location="front" params="$gw2Data->guilds"}
+            </div>
+        </div>
+        {template="characters" group="global" app="gw2integration" location="front" params="$gw2Data->characters"}
+    </div>
+    <div id='ipsTabs_elTabBar2_elTabPvPTab_panel' class='ipsTabs_panel ipsAreaBackground_reset'>
+        <div class="clearfix" style="width: 100%">
+            <div class="pvp_container_right">
+                {template="pvpSeasons" group="global" app="gw2integration" location="front" params="$gw2Data->seasonStats"}
+            </div>
+            <div class="pvp_container_left">
+                {template="pvpProfessionStats" group="global" app="gw2integration" location="front" params="$gw2Data->professionStats"}
+                {template="pvpStats" group="global" app="gw2integration" location="front" params="$gw2Data->pvpStats"}
+            </div>
+        </div>
+        {template="pvpGames" group="global" app="gw2integration" location="front" params="$gw2Data->games"}
+    </div>
+</div>

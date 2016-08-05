@@ -1,0 +1,84 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "gw2_pvp_games",
+            {
+                "name": "game_rating_type",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "3",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "gw2_pvp_games",
+            {
+                "name": "game_season",
+                "type": "CHAR",
+                "length": 36,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "3": {
+        "method": "changeColumn",
+        "params": [
+            "gw2_pvp_games",
+            "game_season",
+            {
+                "name": "game_season_uuid",
+                "type": "CHAR",
+                "length": 36,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "4": {
+        "method": "changeColumn",
+        "params": [
+            "gw2_pvp_games",
+            "game_started",
+            {
+                "name": "game_started",
+                "type": "TIMESTAMP",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0000-00-00 00:00:00",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

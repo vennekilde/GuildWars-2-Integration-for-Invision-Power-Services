@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<javascript app="gw2integration">
+ <file javascript_app="gw2integration" javascript_location="front" javascript_path="controllers/gw2" javascript_name="ips.gw2.pvpseasons.js" javascript_type="controller" javascript_version="65449" javascript_position="1000050">/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+	
+    ips.controller.register('gw2integration.front.gw2.pvpseasons', {
+        initialize: function () {
+            this.on('click',function() {
+                this.switchPvPSeasonTab(this.scope[0].id.substring(14));
+            });
+		},
+
+		switchPvPSeasonTab: function (seasonUUID) {
+            $(&quot;.season&quot;).hide();
+            $(&quot;#season_&quot; + seasonUUID).show();
+		}
+    });
+
+}(jQuery, _));</file>
+</javascript>

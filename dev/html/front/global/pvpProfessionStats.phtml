@@ -1,0 +1,29 @@
+<ips:template parameters="$professions" />
+{{if $professions != null}}
+<div id="profession_stats">
+    <h3>PvP Profession Stats</h3>
+    <table class='ipsTable ipsMatrix ipsTable_zebra ipsBox gw2iMatrix'>
+        <thead>
+            <tr>
+                <th>Profession</th>
+                <th>Wins</th>
+                <th>Losses</th>
+                <th>Win/Loss Ratio</th>
+            </tr>
+        </thead>
+
+        <tbody>
+    {{foreach $professions as $profession}}
+        {{if $profession['pps_wins'] != 0 || $profession['pps_losses'] != 0}}
+            <tr>
+                <td><img src='{resource="img/profession_{$profession['pps_profession']}.png" app="gw2integration" location="front"}' height="36"/></td>
+                <td class='gw2i_blue_color'>{$profession['pps_wins']}</td>
+                <td class='gw2i_red_color'>{$profession['pps_losses']}</td>
+                <td>{$profession['pps_losses'] === 0 ? "N/A" : round($profession['pps_wins'] / $profession['pps_losses'], 2)} </td>
+            </tr>
+        {{endif}}
+    {{endforeach}}
+        </tbody>
+    </table>
+</div>
+{{endif}}

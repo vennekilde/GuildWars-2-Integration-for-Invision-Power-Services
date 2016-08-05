@@ -1,0 +1,265 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 13-07-2016, 22:15:03
+    Author     : Jeppe Boysen Vennekilde
+*/
+
+.ipsTable.gw2iMatrix td {
+    padding: 8px 15px;
+}
+
+.gw2i_red_color {
+    color: #d83232;
+}
+.gw2i_blue_color {
+    color: #0e78dc;
+}
+.pvp_game_red_team_bg, .pvp_game_blue_team_bg{
+    background-size: 5% 100% !important;
+    background-repeat-x: no-repeat !important;
+    text-align: left;
+}
+/*
+.pvp_game_red_team_bg{
+    
+    background: #d83232;
+    background: -webkit-linear-gradient(left, #d83232 , transparent);
+    background: -o-linear-gradient(right, #d83232, transparent);
+    background: -moz-linear-gradient(right, #d83232, transparent);
+    background: linear-gradient(to right, #d83232, transparent);
+}
+.pvp_game_blue_team_bg{
+    background: #0e78dc;
+    background: -webkit-linear-gradient(left, #0e78dc , transparent);
+    background: -o-linear-gradient(right, #0e78dc, transparent);
+    background: -moz-linear-gradient(right, #0e78dc, transparent);
+    background: linear-gradient(to right, #0e78dc, transparent);
+}*/
+.pvp_container_right {
+    width: 250px;
+    padding-top: 15px;
+    display: inline-table;
+    text-align: center;
+    float: right;
+}
+.pvp_container_left{
+    margin-right: 300px;
+}
+.ao_container_right {
+    width: 48%;
+    display: inline-table;
+    float: right;
+}
+.ao_container_left{
+    display: inline-block;
+    width: 48%;
+}
+.clearfix:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.division_img {
+    width: 100%;
+    max-width: 250px;
+}
+.division_overview_img {
+    width: 100%;
+    max-width: 250px;
+    padding: 0px 30px 5px 30px;
+}
+.division_pip,
+.division_pip_ng{
+    width: 6px;
+    height: 22px;
+    background-size: 207px;
+    background-position: -10px -67px;
+    display: inline-block;
+}
+.division_pip_ng{
+    opacity: 0.4;
+}
+.division_pip_spacer{
+    padding-right: 15px;
+}
+.division_pip_container {
+    text-align: center;
+}
+.division_tier_container {
+    display: inline-flex;
+    padding-right: 5px;
+}
+
+.prev_season_container{
+    text-align: center;
+}
+.prev_division {
+    display: inline-block;
+    width: 50px;
+    cursor: pointer;
+}
+.pvp_rank_icon {
+    width: 40px;
+    background-size: 32px;
+    display: table-cell;
+    background-repeat: no-repeat;
+    background-position: 6px 1px;
+}
+#accountOverviewDetailed {
+    position:relative;
+}
+
+.accountOverview_small .pvp_rank_icon {
+    background-size: 22px;
+    background-position: 2px -1px;
+}
+.accountOverview_small .ipsDataItem_generic {
+    padding: 2px 0px !important;
+}
+.ap_field .ipsDataItem_size3{
+    padding-top: 4px !important; 
+    padding-bottom: 0px !important;
+}
+.accountOverview_small .ap_field .ipsDataItem_size3{
+    padding-top: 2px !important; 
+}
+.ap_field img{
+    width: 30px;
+}
+#accountOverview .ipsDataItem_generic{
+    display: table-cell;
+}
+#accountOverview .ipsDataItem{
+    padding: 0px;
+}
+.accountOverview_small .ap_field img{
+    width: 20px;
+}
+.accountOverview_small .ap_field div{
+    line-height: 20px;
+}
+.accountOverview_small .ao_disp_block_small {
+    display: block !important;    
+    text-align: center;
+}
+.ao_tooltip{
+    display: table-cell;
+}
+.ao_stats_container {
+    display: inline-table;
+    table-layout: fixed; /* optional, for equal spacing */
+    border-collapse: collapse;
+    line-height: initial;
+}
+.ao_stat {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+}
+.accountOverview_small .ao_stat{
+    font-weight: normal;
+}
+.ao_stat img {
+    width: 100%;
+    max-width: 45px;
+}
+.accountOverview_small .ao_tooltip{
+    display: block;
+}
+.game_second_field {
+    color: #AAA;
+}
+
+.table_header_color td:first-child{
+    background-color: #202629;
+    color: #fff;
+    width: 130px;
+}
+.gw2_guild_entry{
+    font-size: 14px;
+    padding: 7px !important;
+}
+
+.pvp_rank_rollover {
+    position: absolute;
+    /*right: -9px;*/
+    margin-top: 1px;
+    /* background-color: #ffffff; */
+    border-radius: 50%;
+    padding: 5px;
+    background: url({resource="img/rank_point.png" app="gw2integration" location="front"});
+    background-size: 100% 100%;
+    color: rgb(224, 224, 224);
+    font-size: 90%;
+}
+.division_rollover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    color: rgb(224, 224, 224);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 3px;
+}
+.accountOverview_small .division_rollover {
+    padding-top: 0px;
+}
+
+.season .division_rollover{
+    padding-top: 3.6%;
+    font-size: 18px;
+}
+
+.guild_tag{
+    font-weight: bold; 
+    width: 60px; 
+    display: inline-block;
+}
+img.access_type_img {
+    position: absolute;
+    right: 0;
+    padding-left: 15px;
+    z-index: 100;
+}
+.access_type_fix_width {
+    width: calc(100% - 115px);
+    min-width: 200px;
+}
+.access_type_field {
+    display: none;
+}
+@media screen and (max-width: 1100px){
+    .pvp_container_left {
+        width: 100%;
+    }
+    .pvp_container_right {
+        width: 100%;
+        padding-top: 0px;
+    }
+    .ao_container_left {
+        width: 100%;
+    }
+    .ao_container_right {
+        width: 100%;
+        padding-top: 0px;
+    }
+    .access_type_img{
+        display: none;
+    }
+    .access_type_field{
+        display: block;
+    }
+}
+
+@media screen and (max-width: 450px){
+    .hideSmallPhone{
+        display: none !important;
+    }
+}

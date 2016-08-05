@@ -1,0 +1,45 @@
+<ips:template parameters="$games" />
+{{if $games != null}}
+<div id="latest_games">
+    <h3>Latest PvP Games</h3>
+    <table class='ipsTable ipsMatrix ipsTable_zebra ipsBox gw2iMatrix' style="/*text-align: center;*/">
+        <thead>
+            <tr>
+                <th class="ipsResponsive_showPhone ipsResponsive_block">Game</th>
+                <th class="ipsResponsive_hidePhone">Profession</th>
+                <th class="ipsResponsive_hidePhone">Map</th>
+                <th class="hideSmallPhone">Team</th>
+                <th>Duration</th>
+                <th>Result</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {{foreach $games as $game}}
+            <tr>
+                <td class="ipsResponsive_showPhone ipsResponsive_block">
+                    <div>{$game['game_profession_name']}</div>
+                    <div class="game_second_field">{$game['game_map_name']}</div>
+                </td>
+                <td class="ipsResponsive_hidePhone {$game['game_team'] == 0 ? 'pvp_game_blue_team_bg' : 'pvp_game_red_team_bg'}"><img alt="{$game['game_profession_name']}" title="{$game['game_profession_name']}" src='{resource="img/profession_{$game['game_profession']}.png" app="gw2integration" location="front"}' height="36"/></td>
+                <td class="ipsResponsive_hidePhone"><img alt="{$game['game_map_name']}" title="{$game['game_map_name']}" src='{resource="img/pvp_map_{$game['game_map_id']}.jpg" app="gw2integration" location="front"}' height="36"/></td>
+                <td class="hideSmallPhone">
+                    <div class="{$game['game_team'] == 0 ? 'gw2i_blue_color' : 'gw2i_red_color'}">{$game['game_team'] == 0 ? "Blue Team" : "Red Team"}</div>
+                    <div class="game_second_field">{$game['game_rating_type_string']}{{if $game["season_name"] != null}} - {$game["season_name"]}{{endif}}</div>
+                </td>
+                <td>
+                    <div>{$game['game_duration_string']}</div>
+                    <div class="game_second_field">{$game['game_time_since_ended_string']} ago</div>
+                </td>
+                <td class='{$game['game_result_css_class']}'>{$game['game_result_text']}</td>
+                <td>
+                    <div class="gw2i_red_color">{$game['game_score_red']}</div>
+                    <div class="gw2i_blue_color">{$game['game_score_blue']}</div>
+                </td>
+            </tr>
+        {{endforeach}}
+        </tbody>
+    </table>
+</div>
+{{endif}}

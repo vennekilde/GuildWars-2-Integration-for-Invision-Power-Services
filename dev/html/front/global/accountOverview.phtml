@@ -1,0 +1,102 @@
+<ips:template parameters="$accountData, $pvpStats, $season, $small = false" />
+{{if $accountData['a_world'] != null}}
+<div id="accountOverview" {{if $small}}class="accountOverview_small ipsResponsive_hidePhone"{{endif}}>
+    <ul class="ipsDataList ipsDataList_reducedSpacing cProfileFields">
+        <li class="ipsDataItem">
+            {{if !$small}}
+            <span class="ipsDataItem_generic ipsDataItem_size3 ipsType_break"><strong>Username</strong></span>
+            {{endif}}
+            <span title="Username" class="ao_tooltip"><div class="ipsDataItem_generic ipsType_break ao_disp_block_small">
+                {$accountData["a_username"]}
+            </div></span>
+        </li>
+        <li class="ipsDataItem">
+            {{if !$small}}
+            <span class="ipsDataItem_generic ipsDataItem_size3 ipsType_break"><strong>World</strong></span>
+            {{endif}}
+            <span title="World" class="ao_tooltip"><div class="ipsDataItem_generic ipsType_break ao_disp_block_small">
+                {{$worldNames = \IPS\gw2integration\Application::$world_names;}}{$worldNames[$accountData["a_world"]]}
+            </div></span>
+        </li>
+        {{if isset($season['season_current_division'])}}
+        <li class="ipsDataItem" style="text-align: center;">
+            <h{$small ? 4 : 3} style="margin: 5px 0px 0px 0px;font-weight: normal;">PvP {$season['division_name']}</h{$small ? 4 : 3}>
+            <div style="position: relative;">
+                {{if $season['season_current_repeats'] > 0}}<span title="PvP {$season['division_name']}\nDivision Repeats: x{$season['season_current_repeats']}"><div class='division_rollover'>x{$season["season_current_repeats"]}</div></span>{{endif}}
+                <img alt="PvP {$season['division_name']}" title="PvP {$season['division_name']}" class="division_overview_img" src='{resource="img/division_{$season['season_current_division']}.png" app="gw2integration" location="front"}'/>
+            </div>
+        </li>
+        {{endif}}
+        {{if false}}
+        {{if $accountData["a_monthly_ap"] > 0 || $accountData["a_daily_ap"] > 0}}
+        <li class="ipsDataItem ap_field">
+            <span class="ipsDataItem_generic ipsDataItem_size3 ipsType_break" {{if $small}}style="text-align: center"{{endif}}><img src='{resource="img/ap.png" app="gw2integration" location="front"}'/></span>
+            <div class="ipsDataItem_generic ipsType_break">{$accountData["a_daily_ap"] + $accountData["a_monthly_ap"]}
+            </div>
+        </li>
+        {{endif}}
+        {{if $accountData["a_fractal_level"] > 0}}
+        <li class="ipsDataItem">
+            <span class="ipsDataItem_generic ipsDataItem_size3 ipsType_break"><strong>Fractal Level</strong></span>
+            <div class="ipsDataItem_generic ipsType_break">{$accountData["a_fractal_level"]}
+            </div>
+        </li>
+        {{endif}}
+        {{if $pvpStats["ps_rank"] != null}}
+        <li class="ipsDataItem">
+            <span class="ipsDataItem_generic ipsDataItem_size3 ipsType_break"><strong>PvP Rank</strong></span>
+            <div class="ipsDataItem_generic ipsType_break">{$pvpStats["ps_rank"]}</div>
+            <div class='pvp_rank_icon' style='background-image: url({resource="img/pvp_rank_{$pvpStats['ps_rank_floored']}.png" app="gw2integration" location="front"})' height="36"/>
+        </li>
+        {{endif}}
+        {{if $accountData["a_wvw_rank"] > 0}}
+        <li class="ipsDataItem">
+            <span class="ipsDataItem_generic ipsDataItem_size3 ipsType_break"><strong>WvW Rank</strong></span>
+            <div class="ipsDataItem_generic ipsType_break">{$accountData["a_wvw_rank"]}
+            </div>
+        </li>
+        {{endif}}
+        <li class="ipsDataItem">
+            test
+        </li>
+        {{endif}}
+        <li class="ipsDataItem" style="line-height: 0px;text-align: center;padding-bottom: 3px;">
+            <ul class="ao_stats_container">
+                {{if $accountData["a_monthly_ap"] > 0 || $accountData["a_daily_ap"] > 0}}
+                <li class="ao_stat">
+                    <span title="Achievement Points">
+                        <img src='{resource="img/ap.png" app="gw2integration" location="front"}'/>
+                        <div>{$accountData["a_daily_ap"] + $accountData["a_monthly_ap"]}</div>
+                    </span>
+                </li>
+                {{endif}}
+                {{if $accountData["a_wvw_rank"] > 0}}
+                <li class="ao_stat">
+                    <span title="WvW Rank">
+                        <img src='{resource="img/wvw_rank_icon.png" app="gw2integration" location="front"}'/>
+                        <div>{$accountData["a_wvw_rank"]}</div>
+                    </span>
+                </li>
+                {{endif}}
+                {{if $accountData["a_fractal_level"] > 0}}
+                <li class="ao_stat">
+                    <span title="Fractal Level">
+                        <img src='{resource="img/fractal_level_icon.png" app="gw2integration" location="front"}'/>
+                        <div>{$accountData["a_fractal_level"]}</div>
+                    </span>
+                </li>
+                {{endif}}
+                {{if $pvpStats["ps_rank"] != null}}
+                <li class="ao_stat">
+                    <span title="PvP Rank" style='position: relative;'>
+                        {{if $pvpStats["ps_rank_rollovers"] > 0}}<span title="Rank Rollovers"><div class='pvp_rank_rollover'>{$pvpStats["ps_rank_rollovers"]}</div></span>{{endif}}
+                        <img src='{resource="img/pvp_rank_{$pvpStats['ps_rank_floored']}.png" app="gw2integration" location="front"}'/>
+                        <div>{$pvpStats["ps_rank"]}</div>
+                    </span>
+                </li>
+                {{endif}}
+            </ul>
+        </li>
+    </ul>
+</div>
+{{endif}}

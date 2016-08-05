@@ -1,0 +1,1854 @@
+{
+    "gw2_api_keys": {
+        "name": "gw2_api_keys",
+        "columns": {
+            "u_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 11,
+                "name": "u_id",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "u_api_key": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 80,
+                "name": "u_api_key",
+                "type": "CHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "u_api_key_name": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 64,
+                "name": "u_api_key_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "u_api_key_permissions": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 255,
+                "name": "u_api_key_permissions",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "u_last_success": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "CURRENT_TIMESTAMP",
+                "length": 0,
+                "name": "u_last_success",
+                "type": "TIMESTAMP",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "u_id"
+                ]
+            },
+            "u_api_key": {
+                "type": "unique",
+                "name": "u_api_key",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "u_api_key"
+                ]
+            },
+            "u_api_key_name": {
+                "type": "unique",
+                "name": "u_api_key_name",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "u_api_key_name"
+                ]
+            }
+        },
+        "collation": "utf8mb4_unicode_ci",
+        "engine": "InnoDB"
+    },
+    "gw2_account": {
+        "name": "gw2_account",
+        "columns": {
+            "u_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 11,
+                "name": "u_id",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "a_uuid": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 42,
+                "name": "a_uuid",
+                "type": "CHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "a_username": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 64,
+                "name": "a_username",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "a_world": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "a_world",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "a_created": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "CURRENT_TIMESTAMP",
+                "length": 0,
+                "name": "a_created",
+                "type": "TIMESTAMP",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "a_access": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 3,
+                "name": "a_access",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "a_commander": {
+                "name": "a_commander",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "a_fractal_level": {
+                "name": "a_fractal_level",
+                "type": "MEDIUMINT",
+                "length": 8,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "a_daily_ap": {
+                "name": "a_daily_ap",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "a_monthly_ap": {
+                "name": "a_monthly_ap",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "a_wvw_rank": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 11,
+                "name": "a_wvw_rank",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "u_id"
+                ]
+            }
+        },
+        "collation": "utf8mb4_unicode_ci",
+        "engine": "InnoDB"
+    },
+    "gw2_guild": {
+        "name": "gw2_guild",
+        "columns": {
+            "g_uuid": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 36,
+                "name": "g_uuid",
+                "type": "CHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "g_name": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 42,
+                "name": "g_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "a_username": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 4,
+                "name": "a_username",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "g_uuid"
+                ]
+            },
+            "g_name": {
+                "type": "unique",
+                "name": "g_name",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "g_name"
+                ]
+            }
+        },
+        "collation": "utf8mb4_unicode_ci",
+        "engine": "InnoDB"
+    },
+    "gw2_guild_membership": {
+        "name": "gw2_guild_membership",
+        "columns": {
+            "u_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "u_id",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "g_uuid": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 36,
+                "name": "g_uuid",
+                "type": "CHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null,
+                    null
+                ],
+                "columns": [
+                    "u_id",
+                    "g_uuid"
+                ]
+            }
+        },
+        "collation": "utf8mb4_unicode_ci",
+        "engine": "InnoDB"
+    },
+    "gw2_characters": {
+        "name": "gw2_characters",
+        "columns": {
+            "c_name": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 128,
+                "name": "c_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "u_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "u_id",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "c_race": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 3,
+                "name": "c_race",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "c_gender": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 3,
+                "name": "c_gender",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "c_profession": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 3,
+                "name": "c_profession",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "c_level": {
+                "name": "c_level",
+                "type": "TINYINT",
+                "length": 3,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "g_uuid": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 36,
+                "name": "g_uuid",
+                "type": "CHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "c_age": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "c_age",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "c_created": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "CURRENT_TIMESTAMP",
+                "length": 0,
+                "name": "c_created",
+                "type": "TIMESTAMP",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "c_deaths": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "c_deaths",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "c_name"
+                ]
+            }
+        },
+        "collation": "utf8mb4_unicode_ci",
+        "engine": "InnoDB"
+    },
+    "gw2_character_crafting": {
+        "name": "gw2_character_crafting",
+        "columns": {
+            "c_name": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 128,
+                "name": "c_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "cr_discipline": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 3,
+                "name": "cr_discipline",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "cr_rating": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "cr_rating",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "cr_active": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 1,
+                "name": "cr_active",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "columns": [
+                    "c_name",
+                    "cr_discipline"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        },
+        "collation": "utf8mb4_unicode_ci",
+        "engine": "InnoDB"
+    },
+    "gw2_pvp_stats": {
+        "name": "gw2_pvp_stats",
+        "columns": {
+            "u_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "u_id",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_rank": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_rank",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_rank_points": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_rank_points",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_rank_rollovers": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_rank_rollovers",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_aggregate_wins": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_aggregate_wins",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_aggregate_losses": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_aggregate_losses",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_aggregate_desertions": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_aggregate_desertions",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_aggregate_byes": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_aggregate_byes",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_aggregate_forfeits": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_aggregate_forfeits",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_none_wins": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_none_wins",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_none_losses": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_none_losses",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_none_desertions": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_none_desertions",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_none_byes": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_none_byes",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_none_forfeits": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_none_forfeits",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_ranked_wins": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_ranked_wins",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_ranked_losses": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_ranked_losses",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_ranked_desertions": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_ranked_desertions",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_ranked_byes": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_ranked_byes",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_ranked_forfeits": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_ranked_forfeits",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_soloarenarated_wins": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_soloarenarated_wins",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_soloarenarated_losses": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_soloarenarated_losses",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_soloarenarated_desertions": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_soloarenarated_desertions",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_soloarenarated_byes": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_soloarenarated_byes",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_soloarenarated_forfeits": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_soloarenarated_forfeits",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_teamarenarated_wins": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_teamarenarated_wins",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_teamarenarated_losses": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_teamarenarated_losses",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_teamarenarated_desertions": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_teamarenarated_desertions",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_teamarenarated_byes": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_teamarenarated_byes",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_teamarenarated_forfeits": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_teamarenarated_forfeits",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_unranked_wins": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_unranked_wins",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_unranked_losses": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_unranked_losses",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_unranked_desertions": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_unranked_desertions",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_unranked_byes": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_unranked_byes",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "ps_ladder_unranked_forfeits": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 10,
+                "name": "ps_ladder_unranked_forfeits",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "u_id"
+                ]
+            }
+        },
+        "collation": "utf8mb4_unicode_ci",
+        "engine": "InnoDB"
+    },
+    "gw2_pvp_profession_stats": {
+        "name": "gw2_pvp_profession_stats",
+        "columns": {
+            "u_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "u_id",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "pps_profession": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 3,
+                "name": "pps_profession",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "pps_wins": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "pps_wins",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "pps_losses": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "pps_losses",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "pps_desertions": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "pps_desertions",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "pps_byes": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "pps_byes",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "pps_forfeits": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "pps_forfeits",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null,
+                    null
+                ],
+                "columns": [
+                    "u_id",
+                    "pps_profession"
+                ]
+            }
+        },
+        "collation": "utf8mb4_unicode_ci",
+        "engine": "InnoDB"
+    },
+    "gw2_pvp_games": {
+        "name": "gw2_pvp_games",
+        "columns": {
+            "game_uuid": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 36,
+                "name": "game_uuid",
+                "type": "CHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "u_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "u_id",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "game_map_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "game_map_id",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "game_started": {
+                "name": "game_started",
+                "type": "TIMESTAMP",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0000-00-00 00:00:00",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "game_ended": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0000-00-00 00:00:00",
+                "length": 0,
+                "name": "game_ended",
+                "type": "TIMESTAMP",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "game_result": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 3,
+                "name": "game_result",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "game_team": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "0 = blue, 1 = red",
+                "decimals": null,
+                "default": "",
+                "length": 1,
+                "name": "game_team",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "game_profession": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 3,
+                "name": "game_profession",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "game_score_red": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 5,
+                "name": "game_score_red",
+                "type": "SMALLINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "game_score_blue": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 5,
+                "name": "game_score_blue",
+                "type": "SMALLINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "game_rating_type": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "3",
+                "length": 4,
+                "name": "game_rating_type",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "game_season_uuid": {
+                "name": "game_season_uuid",
+                "type": "CHAR",
+                "length": 36,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null,
+                    null
+                ],
+                "columns": [
+                    "game_uuid",
+                    "u_id"
+                ]
+            }
+        },
+        "collation": "utf8mb4_unicode_ci",
+        "engine": "InnoDB"
+    },
+    "gw2_pvp_season_standing": {
+        "name": "gw2_pvp_season_standing",
+        "columns": {
+            "u_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "u_id",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "season_uuid": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 36,
+                "name": "season_uuid",
+                "type": "CHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "season_current_total_points": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "season_current_total_points",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "season_current_division": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "season_current_division",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "season_current_tier": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "season_current_tier",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "season_current_points": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "season_current_points",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "season_current_repeats": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "season_current_repeats",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "season_best_total_points": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "season_best_total_points",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "season_best_division": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "season_best_division",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "season_best_tier": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "season_best_tier",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "season_best_points": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "season_best_points",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "season_best_repeats": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 10,
+                "name": "season_best_repeats",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null,
+                    null
+                ],
+                "columns": [
+                    "u_id",
+                    "season_uuid"
+                ]
+            }
+        },
+        "collation": "utf8mb4_unicode_ci",
+        "engine": "InnoDB"
+    },
+    "gw2_pvp_seasons": {
+        "name": "gw2_pvp_seasons",
+        "columns": {
+            "season_uuid": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 36,
+                "name": "season_uuid",
+                "type": "CHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "season_name": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "Unknown",
+                "length": 64,
+                "name": "season_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "season_start": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "season_start",
+                "type": "TIMESTAMP",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "season_end": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "season_end",
+                "type": "TIMESTAMP",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "season_active": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 0,
+                "length": 1,
+                "name": "season_active",
+                "type": "BIT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "season_uuid"
+                ]
+            }
+        },
+        "collation": "utf8mb4_unicode_ci",
+        "engine": "InnoDB"
+    },
+    "gw2_pvp_season_divisions": {
+        "name": "gw2_pvp_season_divisions",
+        "columns": {
+            "season_uuid": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 36,
+                "name": "season_uuid",
+                "type": "CHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "division_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 4,
+                "name": "division_id",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "division_name": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 64,
+                "name": "division_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "division_large_icon": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 128,
+                "name": "division_large_icon",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "division_small_icon": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 128,
+                "name": "division_small_icon",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "division_pip_icon": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 128,
+                "name": "division_pip_icon",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "division_tiers": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 4,
+                "name": "division_tiers",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "division_pips_per_tier": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 4,
+                "name": "division_pips_per_tier",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null,
+                    null
+                ],
+                "columns": [
+                    "season_uuid",
+                    "division_id"
+                ]
+            }
+        },
+        "collation": "utf8mb4_unicode_ci",
+        "engine": "InnoDB"
+    }
+}
