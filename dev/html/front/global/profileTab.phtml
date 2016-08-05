@@ -1,14 +1,14 @@
 <ips:template parameters="$gw2Data" />
-<div class='ipsTabs ipsClearfix' id='elTabBar2' data-ipsTabBar data-ipsTabBar-contentArea='#elTabContent2'>
-	<a href='#elTabBar' data-action='expandTabs'><i class='icon-caret-down'></i></a>
+<div class='ipsTabs ipsClearfix' id='elTabBar2' data-ipsTabBar data-ipsTabBar-contentArea='#elTabContent2' data-controller="gw2integration.front.gw2.tabhandler">
+	<a href='#elTabBar2' data-action='expandTabs'><i class='icon-caret-down'></i></a>
 	<ul role='tablist'>
 		<li role='presentation'>
-			<a href='{$gw2Data->member->url()->setQueryString( 'tab', 'node_gw2integration_gw2integration' )}' id='elTabAccountTab' role='tab' class='ipsTabs_item' aria-selected="true">
+			<a href='{$gw2Data->member->url()->setQueryString( array('tab' =>'node_gw2integration_gw2integration'))}' id='elTabAccountTab' role='tab' class='ipsTabs_item' aria-selected="true">
 				Overview
 			</a>
 		</li>
 		<li role='presentation'>
-            <a href='{$gw2Data->member->url()->setQueryString( 'tab', 'node_gw2integration_gw2integration' )}' id='elTabPvPTab' role='tab' class='ipsTabs_item'>
+            <a href='{$gw2Data->member->url()->setQueryString( array('tab' =>'node_gw2integration_gw2integration', 'tab2' =>'elTabPvPTab') )}' id='elTabPvPTab' role='tab' class='ipsTabs_item'>
 				PvP
 			</a>
 		</li>
