@@ -402,11 +402,13 @@ class _Application extends \IPS\Application
                     'c_gender'     => $this->getGenderIdFromString($character["gender"]),
                     'c_profession' => $this->getProfessionIdFromString($character["profession"]),
                     'c_level'      => $character["level"],
-                    'g_uuid'       => $character["guild"],
                     'c_age'        => $character["age"],
                     'c_created'    => \IPS\gw2integration\Utils\DataConversionUtils::getTimestampFromGW2Time($character["created"]),
                     'c_deaths'     => $character["deaths"]
                 );
+                if(isset($character["title"])){
+                    $values['g_uuid'] = $character["guild"];
+                }
                 if(isset($character["title"])){
                     $values['c_title'] = $character["title"];
                 }
@@ -414,7 +416,7 @@ class _Application extends \IPS\Application
                 $this->persistCharacterCraftingProfessions($character["name"], $character["crafting"]);
             }
         } catch (Exception $e) {
-            //\IPS\Session::i()->log(null,  get_class($e) . ": " . $e->getMessage() . "\n" . $e->getTraceAsString());
+            \IPS\Session::i()->log(null,  get_class($e) . ": " . $e->getMessage() . "\n" . $e->getTraceAsString());
             return false;
         }
         return true;
