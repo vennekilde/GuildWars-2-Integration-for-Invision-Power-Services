@@ -27,8 +27,8 @@
 namespace IPS\gw2integration;
 
 require_once __DIR__ . "/events/events/GW2ResponseEvent.php";
-require_once __DIR__ . "/exceptions/GW2APIKeyException.php";
-require_once __DIR__ . "/exceptions/MalformedGW2ResponseException.php";
+require_once __DIR__ . "/Exception/GW2APIKeyException.php";
+require_once __DIR__ . "/Exception/MalformedGW2ResponseException.php";
 
 use IPS\gw2integration\Event\_GW2ResponseEvent;
 use IPS\gw2integration\Exception\_GW2APIKeyException;

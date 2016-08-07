@@ -1,4 +1,5 @@
 <ips:template parameters="$seasons" />
+{{if !empty($seasons)}}
 <div id="seasons">
     {{$hideSeason = false;}}
     {{foreach $seasons as $season}}
@@ -42,3 +43,4 @@
         </div>
     {{endif}}
 </div>
+{{endif}}

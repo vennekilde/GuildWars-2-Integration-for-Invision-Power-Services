@@ -7,11 +7,13 @@
 				Overview
 			</a>
 		</li>
+        {{if !empty($gw2Data->seasonStats) || !empty($gw2Data->pvpStats) || !empty($gw2Data->games) || !empty($gw2Data->professionStats)}}
 		<li role='presentation'>
             <a href='{$gw2Data->member->url()->setQueryString( array('tab' =>'node_gw2integration_gw2integration', 'tab2' =>'elTabPvPTab') )}' id='elTabPvPTab' role='tab' class='ipsTabs_item'>
 				PvP
 			</a>
 		</li>
+        {{endif}}
 	</ul>
 </div>
 

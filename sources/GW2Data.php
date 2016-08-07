@@ -99,7 +99,6 @@ class _GW2Data {
                 $professionStats = $this->gw2integration->getPVPProfessionsStats($this->member->member_id);
                 $seasonStats = $this->gw2integration->getPVPSeasonStandingWithSeasonData($this->member->member_id);
 
-                $this->characters = array();
                 foreach($characters AS $character){
                     $character["c_age_text"] = $this->secondsToTime($character["c_age"]);
                     $this->characters[] = $character;
@@ -107,15 +106,14 @@ class _GW2Data {
                 }
                 $this->account["total_playtime_text"] = $this->secondsToTime($this->account["total_playtime"]);
                 
-                $this->crafting = array();
                 foreach($crafting AS $craftProfession){
                     $this->crafting[] = $craftProfession;
                 }
-                $this->guilds = array();
+                
                 foreach($guilds AS $guild){
                     $this->guilds[] = $guild;
                 }
-                $this->games = array();
+                
                 foreach($games AS $game){
                     $game["game_result_text"] = \IPS\gw2integration\Application::getPVPGameResultStringFromId($game["game_result"]);
                     switch($game["game_result"]){
@@ -146,11 +144,10 @@ class _GW2Data {
                     $this->games[] = $game;
                 }
                 //$this->games = json_encode($this->games);
-                $this->professionStats = array();
                 foreach($professionStats AS $professionStat){
                     $this->professionStats[] = $professionStat;
                 }
-                $this->seasonStats = array();
+                
                 foreach($seasonStats AS $seasonStat){
                     $this->seasonStats[] = $seasonStat;
                 }

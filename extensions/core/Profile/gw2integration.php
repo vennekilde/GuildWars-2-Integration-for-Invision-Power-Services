@@ -13,6 +13,7 @@
 namespace IPS\gw2integration\extensions\core\Profile;
 
 use IPS\gw2integration\_Application;
+use IPS\gw2integration\Utils\DataConversionUtils;
 
 /* To prevent PHP errors (extending class does not exist) revealing path */
 if ( !defined( '\IPS\SUITE_UNIQUE_KEY' ) )
@@ -51,6 +52,8 @@ class _gw2integration
 	public function __construct( \IPS\Member $member )
 	{
 		$this->member = $member;
+        //ignore this
+        DataConversionUtils::$RACE_NAMES;
 	}
 	
 	/**
@@ -61,7 +64,7 @@ class _gw2integration
 	public function showTab()
 	{
 		$this->gw2Data = new \IPS\gw2integration\GW2Data($this->member );
-		return $this->gw2Data->account != null && $this->gw2Data->pvpStats != null;
+		return $this->gw2Data->account != null;
 	}
 	
 	/**

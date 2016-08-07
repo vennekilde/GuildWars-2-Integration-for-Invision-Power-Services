@@ -5,7 +5,11 @@
     },
     "profile_settings_hook": {
         "type": "S",
-        "class": "\\IPS\\Theme\\class_core_admin_settings"
+        "class": "\\IPS\\Theme\\class_core_front_system"
+    },
+    "profile_settings_form_hook": {
+        "type": "C",
+        "class": "\\IPS\\core\\modules\\front\\system\\settings"
     },
     "front_topics_hook": {
         "type": "S",

@@ -12,7 +12,7 @@
 namespace IPS\gw2integration;
 
 use IPS\gw2integration\GW2APICommunicator;
-use IPS\gw2integration\utils\DataConversionUtils;
+use IPS\gw2integration\Utils\DataConversionUtils;
 use Exception;
 
 include __DIR__ . '/gw2api.phar';
@@ -838,9 +838,10 @@ class _Application extends \IPS\Application
     function getPVPSeasonStandingWithSeasonData($userId){
         $dbPrefix = \IPS\Db::i()->prefix;
         return \IPS\Db::i()->query(
-            'SELECT * FROM '.$dbPrefix.'gw2integration_pvp_seasons AS s
-                LEFT JOIN '.$dbPrefix.'gw2integration_pvp_season_standing ss ON ss.u_id = ' .  intval($userId) . ' AND ss.season_uuid = s.season_uuid
+            'SELECT * FROM '.$dbPrefix.'gw2integration_pvp_season_standing AS ss
+                LEFT JOIN '.$dbPrefix.'gw2integration_pvp_seasons s ON ss.season_uuid = s.season_uuid
                 LEFT JOIN '.$dbPrefix.'gw2integration_pvp_season_divisions AS sd ON sd.season_uuid = s.season_uuid AND ss.season_current_division = sd.division_id 
+                WHERE ss.u_id = ' .  intval($userId) . ' 
                 ORDER BY s.season_end DESC');
     }
     

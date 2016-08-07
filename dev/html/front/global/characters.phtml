@@ -1,7 +1,7 @@
 <ips:template parameters="$characters" />
-{{if $characters != null}}
+{{if !empty($characters)}}
 <div id="latest_games">
-    <h3>Charecters</h3>
+    <h3>Characters</h3>
     <table class='ipsTable ipsMatrix ipsTable_zebra ipsBox gw2iMatrix' style="/*text-align: center;*/">
         <thead>
             <tr>
@@ -38,7 +38,7 @@
                     <img alt="{$character["g_name"]}" title="{$character["g_name"]}" src='http://guilds.gw2w2w.com/{$character["g_uuid"]}.svg' style="width: 24px"> 
                 </td>
                 <td class="ipsResponsive_hidePhone">
-                {{$raceName = ucfirst(array_values(\IPS\gw2integration\utils\DataConversionUtils::$RACE_NAMES)[$character['c_race']]);}}
+                {{$raceName = ucfirst(array_values(\IPS\gw2integration\Utils\DataConversionUtils::$RACE_NAMES)[$character['c_race']]);}}
                     <img title="{$raceName}" src='{resource="img/race_{$character['c_race']}.png" app="gw2integration" location="front"}' height="24px"/>
                 </td>
                 <td class="ipsResponsive_hideTablet ipsResponsive_hidePhone">
