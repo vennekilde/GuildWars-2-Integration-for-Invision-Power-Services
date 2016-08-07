@@ -1,0 +1,43 @@
+<ips:template parameters="$stats" />
+{{if $stats != null}}
+<div id="pvp_stats">
+    <h3>PvP Stats</h3>
+    <table class='ipsTable ipsMatrix ipsTable_zebra ipsBox gw2iMatrix' style="/*text-align: center;*/">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Wins</th>
+                <th>Losses</th>
+                <th>Win/Loss Ratio</th>
+            </tr>
+        </thead>
+
+        <tbody class="table_header_color">
+            <tr>
+                <td><div>Total</div></td>
+                <td><div class="gw2i_blue_color">{$stats['ps_aggregate_wins_total']}</div></td>
+                <td><div class="gw2i_red_color">{$stats['ps_aggregate_losses_total']}</div></td>
+                <td>{$stats['ps_aggregate_losses_total'] === 0 ? "N/A" : round($stats['ps_aggregate_wins_total'] / $stats['ps_aggregate_losses_total'], 2)} </td>
+            </tr>
+            <tr>
+                <td><span title="Includes Ranked, Solo Arena & Team Arena games">Ranked</span></td>
+                <td><div class="gw2i_blue_color">{$stats['ps_ladder_ranked_wins_total']}</div></td>
+                <td><div class="gw2i_red_color">{$stats['ps_ladder_ranked_losses_total']}</div></td>
+                <td>{$stats['ps_ladder_ranked_losses_total'] === 0 ? "N/A" : round($stats['ps_ladder_ranked_wins_total'] / $stats['ps_ladder_ranked_losses_total'], 2)} </td>
+            </tr>
+            <tr>
+                <td><span title="Includes Unranked & None Ladder games">Unranked</span></td>
+                <td><div class="gw2i_blue_color">{$stats['ps_ladder_unranked_wins_total']}</div></td>
+                <td><div class="gw2i_red_color">{$stats['ps_ladder_unranked_losses_total']}</div></td>
+                <td>{$stats['ps_ladder_unranked_losses_total'] === 0 ? "N/A" : round($stats['ps_ladder_unranked_wins_total'] / $stats['ps_ladder_unranked_losses_total'], 2)} </td>
+            </tr>
+            <!--<tr>
+                <td><div>Custom Arena</div></td>
+                <td><div class="gw2i_blue_color">{$stats['ps_ladder_none_wins']}</div></td>
+                <td><div class="gw2i_red_color">{$stats['ps_ladder_none_losses']}</div></td>
+                <td>{$stats['ps_ladder_none_losses'] === 0 ? "N/A" : round($stats['ps_ladder_none_wins'] / $stats['ps_ladder_none_losses'], 2)} </td>
+            </tr>-->
+        </tbody>
+    </table>
+</div>
+{{endif}}
