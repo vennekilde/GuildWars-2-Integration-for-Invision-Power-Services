@@ -331,7 +331,7 @@ class _Application extends \IPS\Application
     function getGuildMembership($userId){
         $dbPrefix = \IPS\Db::i()->prefix;
         return \IPS\Db::i()->query(
-                'SELECT * '
+                'SELECT membership.*, guilds.g_name, guilds.g_tag '
                 . 'FROM '.$dbPrefix.'gw2integration_guild_membership AS membership '
                 . 'LEFT JOIN '.$dbPrefix.'gw2integration_guilds AS guilds on membership.g_uuid = guilds.g_uuid ' 
                 . 'WHERE u_id = ' . $userId . ' ORDER BY g_tag'
@@ -416,7 +416,7 @@ class _Application extends \IPS\Application
                 $this->persistCharacterCraftingProfessions($character["name"], $character["crafting"]);
             }
         } catch (Exception $e) {
-            \IPS\Session::i()->log(null,  get_class($e) . ": " . $e->getMessage() . "\n" . $e->getTraceAsString());
+            //\IPS\Session::i()->log(null,  get_class($e) . ": " . $e->getMessage() . "\n" . $e->getTraceAsString());
             return false;
         }
         return true;
@@ -907,5 +907,27 @@ class _Application extends \IPS\Application
      */
     public function persistPVPSeasonDivision($values){
         \IPS\Db::i()->replace( 'gw2integration_pvp_season_divisions', $values, array("season_uuid", "division_id"));
+    }
+    
+    /**
+     * 
+     * @param type $userId
+     * @return type
+     */
+    public function getPrivacySettings($userId){
+        try{
+            $result = \IPS\Db::i()->select('*', 'gw2integration_privacy_settings', array("u_id = ?",$userId))->first();
+        } catch (\UnderflowException $e){
+            $result = null;
+        }
+        return $result;
+    }
+    
+    /**
+     * 
+     * @param array $values
+     */
+    public function persistPrivacySettings($values){
+        \IPS\Db::i()->replace( 'gw2integration_privacy_settings', $values, array("u_id"));
     }
 }

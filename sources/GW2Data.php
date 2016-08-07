@@ -58,6 +58,8 @@ class _GW2Data {
     public $professionStats;
     public $seasonStats;
     public $pvpStats;
+    
+    public $privacySettings;
 
     public $test;
     /**
@@ -74,6 +76,7 @@ class _GW2Data {
     private function init(){
 		\IPS\Application::applications();
 		$this->gw2integration = \IPS\Application::load( 'gw2integration' );
+        $this->privacySettings = new \IPS\gw2integration\PrivacySettings($this->gw2integration->getPrivacySettings($this->member->member_id));
         if($this->overviewOnly){
             $overviewData = $this->gw2integration->getOverviewData($this->member->member_id);
             $this->account = $overviewData;
@@ -89,7 +92,7 @@ class _GW2Data {
             }
         } else {
             $this->account = $this->gw2integration->getAccountData($this->member->member_id);
-            
+            //$this->test = $this->gw2integration->getAPIKeyForUser($this->member->member_id);
             if(isset($this->account["a_username"])){
                 $this->account["total_playtime"] = 0;
                 $characters = $this->gw2integration->getCharactersData($this->member->member_id);

@@ -1,7 +1,8 @@
-<ips:template parameters="$accountData, $pvpStats, $season, $small = false" />
+<ips:template parameters="$accountData, $pvpStats, $season, $privacySettings, $small = false" />
 {{if $accountData['a_world'] != null}}
 <div id="accountOverview" {{if $small}}class="accountOverview_small ipsResponsive_hidePhone"{{endif}}>
     <ul class="ipsDataList ipsDataList_reducedSpacing cProfileFields">
+        {{if $privacySettings->getPrivacySetting("display_account_name")}}
         <li class="ipsDataItem">
             {{if !$small}}
             <span class="ipsDataItem_generic ipsDataItem_size3 ipsType_break"><strong>Username</strong></span>
@@ -10,6 +11,8 @@
                 {$accountData["a_username"]}
             </div></span>
         </li>
+        {{endif}}
+        {{if $privacySettings->getPrivacySetting("display_world")}}
         <li class="ipsDataItem">
             {{if !$small}}
             <span class="ipsDataItem_generic ipsDataItem_size3 ipsType_break"><strong>World</strong></span>
@@ -18,7 +21,8 @@
                 {{$worldNames = \IPS\gw2integration\Application::$world_names;}}{$worldNames[$accountData["a_world"]]}
             </div></span>
         </li>
-        {{if isset($season['season_current_division'])}}
+        {{endif}}
+        {{if $privacySettings->getPrivacySetting("display_pvp_seasons") && isset($season['season_current_division'])}}
         <li class="ipsDataItem" style="text-align: center;">
             <h{$small ? 4 : 3} style="margin: 5px 0px 0px 0px;font-weight: normal;">PvP {$season['division_name']}</h{$small ? 4 : 3}>
             <div style="position: relative;">
@@ -27,7 +31,7 @@
             </div>
         </li>
         {{endif}}
-        {{if false}}
+        <!--{{if false}}
         {{if $accountData["a_monthly_ap"] > 0 || $accountData["a_daily_ap"] > 0}}
         <li class="ipsDataItem ap_field">
             <span class="ipsDataItem_generic ipsDataItem_size3 ipsType_break" {{if $small}}style="text-align: center"{{endif}}><img src='{resource="img/ap.png" app="gw2integration" location="front"}'/></span>
@@ -59,10 +63,10 @@
         <li class="ipsDataItem">
             test
         </li>
-        {{endif}}
+        {{endif}}-->
         <li class="ipsDataItem" style="line-height: 0px;text-align: center;padding-bottom: 3px;">
             <ul class="ao_stats_container">
-                {{if $accountData["a_monthly_ap"] > 0 || $accountData["a_daily_ap"] > 0}}
+                {{if $privacySettings->getPrivacySetting("display_ap") && ($accountData["a_monthly_ap"] > 0 || $accountData["a_daily_ap"] > 0)}}
                 <li class="ao_stat">
                     <span title="Achievement Points">
                         <img src='{resource="img/ap.png" app="gw2integration" location="front"}'/>
@@ -70,7 +74,7 @@
                     </span>
                 </li>
                 {{endif}}
-                {{if $accountData["a_wvw_rank"] > 0}}
+                {{if $privacySettings->getPrivacySetting("display_wvw_rank") && $accountData["a_wvw_rank"] > 0}}
                 <li class="ao_stat">
                     <span title="WvW Rank">
                         <img src='{resource="img/wvw_rank_icon.png" app="gw2integration" location="front"}'/>
@@ -78,7 +82,7 @@
                     </span>
                 </li>
                 {{endif}}
-                {{if $accountData["a_fractal_level"] > 0}}
+                {{if $privacySettings->getPrivacySetting("display_fractal_level") && $accountData["a_fractal_level"] > 0}}
                 <li class="ao_stat">
                     <span title="Fractal Level">
                         <img src='{resource="img/fractal_level_icon.png" app="gw2integration" location="front"}'/>
@@ -86,7 +90,7 @@
                     </span>
                 </li>
                 {{endif}}
-                {{if $pvpStats["ps_rank"] != null}}
+                {{if $privacySettings->getPrivacySetting("display_pvp_rank") && $pvpStats["ps_rank"] != null}}
                 <li class="ao_stat">
                     <span title="PvP Rank" style='position: relative;'>
                         {{if $pvpStats["ps_rank_rollovers"] > 0}}<span title="Rank Rollovers"><div class='pvp_rank_rollover'>{$pvpStats["ps_rank_rollovers"]}</div></span>{{endif}}

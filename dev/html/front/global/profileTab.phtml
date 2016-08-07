@@ -7,7 +7,7 @@
 				Overview
 			</a>
 		</li>
-        {{if !empty($gw2Data->seasonStats) || !empty($gw2Data->pvpStats) || !empty($gw2Data->games) || !empty($gw2Data->professionStats)}}
+        {{if (!empty($gw2Data->seasonStats) || !empty($gw2Data->pvpStats) || !empty($gw2Data->games) || !empty($gw2Data->professionStats)) && $gw2Data->privacySettings->displayPvP()}}
 		<li role='presentation'>
             <a href='{$gw2Data->member->url()->setQueryString( array('tab' =>'node_gw2integration_gw2integration', 'tab2' =>'elTabPvPTab') )}' id='elTabPvPTab' role='tab' class='ipsTabs_item'>
 				PvP
@@ -20,26 +20,61 @@
 <!-- The tab panel wrapper -->
 <div id='elTabContent2'>
     <div id='ipsTabs_elTabBar2_elTabAccountTab_panel' class='ipsTabs_panel ipsAreaBackground_reset'>
-        <div class="clearfix" style="width: 100%">
-            <div class="ao_container_left">
-                {template="accountOverviewDetailed" group="global" app="gw2integration" location="front" params="$gw2Data->account, $gw2Data->pvpStats, $gw2Data->seasonStats"}
-            </div>
-            <div class="ao_container_right">
+        {{if $gw2Data->privacySettings->displayDetailedOverview() != $gw2Data->privacySettings->getPrivacySetting("display_guilds")}}
+            {{if $gw2Data->privacySettings->getPrivacySetting("display_guilds")}}
                 {template="guildMemberships" group="global" app="gw2integration" location="front" params="$gw2Data->guilds"}
+            {{else}}
+                {template="accountOverviewDetailed" group="global" app="gw2integration" location="front" params="$gw2Data->account, $gw2Data->pvpStats, $gw2Data->seasonStats, $gw2Data->privacySettings"}
+            {{endif}}
+        {{else}}
+            <div class="clearfix" style="width: 100%">
+                <div class="ao_container_left">
+                    {{if $gw2Data->privacySettings->displayDetailedOverview()}}
+                        {template="accountOverviewDetailed" group="global" app="gw2integration" location="front" params="$gw2Data->account, $gw2Data->pvpStats, $gw2Data->seasonStats, $gw2Data->privacySettings"}
+                    {{endif}}
+                </div>
+                <div class="ao_container_right">
+                    {{if $gw2Data->privacySettings->getPrivacySetting("display_guilds")}}
+                        {template="guildMemberships" group="global" app="gw2integration" location="front" params="$gw2Data->guilds"}
+                    {{endif}}
+                </div>
             </div>
-        </div>
-        {template="characters" group="global" app="gw2integration" location="front" params="$gw2Data->characters"}
+         {{endif}}
+        {{if $gw2Data->privacySettings->getPrivacySetting("display_characters")}}
+            {template="characters" group="global" app="gw2integration" location="front" params="$gw2Data->characters"}
+        {{endif}}
     </div>
     <div id='ipsTabs_elTabBar2_elTabPvPTab_panel' class='ipsTabs_panel ipsAreaBackground_reset'>
-        <div class="clearfix" style="width: 100%">
-            <div class="pvp_container_right">
+        {{if $gw2Data->privacySettings->getPrivacySetting("display_pvp_seasons") != ($gw2Data->privacySettings->getPrivacySetting("display_pvp_profession_stats") || $gw2Data->privacySettings->getPrivacySetting("display_pvp_stats"))}}
+            {{if $gw2Data->privacySettings->getPrivacySetting("display_pvp_seasons")}}
                 {template="pvpSeasons" group="global" app="gw2integration" location="front" params="$gw2Data->seasonStats"}
+            {{else}}
+                {{if $gw2Data->privacySettings->getPrivacySetting("display_pvp_profession_stats")}}
+                    {template="pvpProfessionStats" group="global" app="gw2integration" location="front" params="$gw2Data->professionStats"}
+                {{endif}}
+                {{if $gw2Data->privacySettings->getPrivacySetting("display_pvp_stats")}}
+                    {template="pvpStats" group="global" app="gw2integration" location="front" params="$gw2Data->pvpStats"}
+                {{endif}}
+            {{endif}}
+        {{else}}
+            <div class="clearfix" style="width: 100%">
+                <div class="pvp_container_right">
+                    {{if $gw2Data->privacySettings->getPrivacySetting("display_pvp_seasons")}}
+                        {template="pvpSeasons" group="global" app="gw2integration" location="front" params="$gw2Data->seasonStats"}
+                    {{endif}}
+                </div>
+                <div class="pvp_container_left">
+                    {{if $gw2Data->privacySettings->getPrivacySetting("display_pvp_profession_stats")}}
+                        {template="pvpProfessionStats" group="global" app="gw2integration" location="front" params="$gw2Data->professionStats"}
+                    {{endif}}
+                    {{if $gw2Data->privacySettings->getPrivacySetting("display_pvp_stats")}}
+                        {template="pvpStats" group="global" app="gw2integration" location="front" params="$gw2Data->pvpStats"}
+                    {{endif}}
+                </div>
             </div>
-            <div class="pvp_container_left">
-                {template="pvpProfessionStats" group="global" app="gw2integration" location="front" params="$gw2Data->professionStats"}
-                {template="pvpStats" group="global" app="gw2integration" location="front" params="$gw2Data->pvpStats"}
-            </div>
-        </div>
-        {template="pvpGames" group="global" app="gw2integration" location="front" params="$gw2Data->games"}
+        {{endif}}
+        {{if $gw2Data->privacySettings->getPrivacySetting("display_pvp_games")}}
+            {template="pvpGames" group="global" app="gw2integration" location="front" params="$gw2Data->games"}
+        {{endif}}
     </div>
 </div>

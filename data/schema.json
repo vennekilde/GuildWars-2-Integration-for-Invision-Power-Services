@@ -450,18 +450,18 @@
         "name": "gw2integration_characters",
         "columns": {
             "c_name": {
-                "allow_null": false,
-                "auto_increment": false,
-                "binary": false,
-                "comment": "",
-                "decimals": null,
-                "default": "",
-                "length": 128,
                 "name": "c_name",
                 "type": "VARCHAR",
-                "unsigned": false,
+                "length": 128,
+                "decimals": null,
                 "values": [],
-                "zerofill": false
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": true
             },
             "u_id": {
                 "allow_null": false,
@@ -1888,5 +1888,52 @@
         "collation": "utf8mb4_unicode_ci",
         "engine": "InnoDB",
         "comment": ""
+    },
+    "gw2integration_privacy_settings": {
+        "name": "gw2integration_privacy_settings",
+        "columns": {
+            "u_id": {
+                "allow_null": false,
+                "auto_increment": true,
+                "binary": false,
+                "comment": "ID Number",
+                "decimals": null,
+                "default": null,
+                "length": 13,
+                "name": "u_id",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "display_account_name": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": 1,
+                "length": 1,
+                "name": "display_account_name",
+                "type": "BIT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "u_id"
+                ]
+            }
+        },
+        "collation": "utf8mb4_unicode_ci",
+        "engine": "InnoDB"
     }
 }

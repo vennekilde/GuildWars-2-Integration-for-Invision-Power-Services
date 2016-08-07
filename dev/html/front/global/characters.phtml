@@ -35,7 +35,11 @@
                     {$character["c_age_text"]}
                 </td>
                 <td>
-                    <img alt="{$character["g_name"]}" title="{$character["g_name"]}" src='http://guilds.gw2w2w.com/{$character["g_uuid"]}.svg' style="width: 24px"> 
+                    {{if $character["g_name"] != null }}
+                        <img alt="{$character["g_name"]}" title="{$character["g_name"]}" src='http://guilds.gw2w2w.com/{$character["g_uuid"]}.svg' style="width: 24px"> 
+                    {{else}}
+                        None
+                    {{endif}}
                 </td>
                 <td class="ipsResponsive_hidePhone">
                 {{$raceName = ucfirst(array_values(\IPS\gw2integration\Utils\DataConversionUtils::$RACE_NAMES)[$character['c_race']]);}}

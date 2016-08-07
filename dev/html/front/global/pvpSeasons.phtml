@@ -31,7 +31,7 @@
     {{endif}}
     {{endforeach}}
     {{if $hideSeason}} <!-- will only be true if the user has participated in a season-->
-        <h3>Previous Seasons</h3>
+        <h3 style='text-align: center;'>Previous Seasons</h3>
         <div class='prev_season_container'>
             {{foreach $seasons as $season}}
             {{if $season['season_current_division'] != null}}

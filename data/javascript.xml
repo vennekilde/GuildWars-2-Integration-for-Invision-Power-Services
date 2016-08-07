@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <javascript app="gw2integration">
- <file javascript_app="gw2integration" javascript_location="front" javascript_path="controllers/gw2" javascript_name="ips.gw2.profileSettingsSave.js" javascript_type="controller" javascript_version="65451" javascript_position="1000050"><![CDATA[/* 
+ <file javascript_app="gw2integration" javascript_location="front" javascript_path="controllers/gw2" javascript_name="ips.gw2.profileSettingsSave.js" javascript_type="controller" javascript_version="65453" javascript_position="1000050"><![CDATA[/* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -29,7 +29,7 @@
         },
     });
 }(jQuery, _));]]></file>
- <file javascript_app="gw2integration" javascript_location="front" javascript_path="controllers/gw2" javascript_name="ips.gw2.pvpseasons.js" javascript_type="controller" javascript_version="65451" javascript_position="1000050">/* &#13;
+ <file javascript_app="gw2integration" javascript_location="front" javascript_path="controllers/gw2" javascript_name="ips.gw2.pvpseasons.js" javascript_type="controller" javascript_version="65453" javascript_position="1000050">/* &#13;
  * To change this license header, choose License Headers in Project Properties.&#13;
  * To change this template file, choose Tools | Templates&#13;
  * and open the template in the editor.&#13;
@@ -51,7 +51,7 @@
     });&#13;
 &#13;
 }(jQuery, _));</file>
- <file javascript_app="gw2integration" javascript_location="front" javascript_path="controllers/gw2" javascript_name="ips.gw2.tabhandler.js" javascript_type="controller" javascript_version="65451" javascript_position="1000050"><![CDATA[/* 
+ <file javascript_app="gw2integration" javascript_location="front" javascript_path="controllers/gw2" javascript_name="ips.gw2.tabhandler.js" javascript_type="controller" javascript_version="65453" javascript_position="1000050"><![CDATA[/* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.

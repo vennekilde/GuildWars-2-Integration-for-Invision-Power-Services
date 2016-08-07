@@ -95,6 +95,10 @@ and open the template in the editor.
     padding-right: 5px;
 }
 
+.season {
+    text-align: center;
+}
+
 .prev_season_container{
     text-align: center;
 }

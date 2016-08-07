@@ -1,0 +1,23 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "gw2integration_characters",
+            "c_name",
+            {
+                "name": "c_name",
+                "type": "VARCHAR",
+                "length": 128,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": true
+            }
+        ]
+    }
+}
