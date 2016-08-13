@@ -17,7 +17,7 @@ public static function hookData() {
   <div class="ipsWidget ipsWidget_vertical cProfileSidebarBlock ipsBox ipsSpacer_bottom">
       <h2 class="ipsWidget_title ipsType_reset">GW2 Integration</h2>
       <div class="ipsWidget_inner ipsPad">
-        {template="accountOverview" group="global" app="gw2integration" location="front" params="$gw2Data->account, $gw2Data->pvpStats, $gw2Data->seasonStats, $gw2Data->privacySettings, false"}
+        {template="accountOverview" group="global" app="gw2integration" location="front" params="$gw2Data->account, $gw2Data->pvpStats, $gw2Data->seasonStats, $gw2Data->representsGuild, $gw2Data->privacySettings, false"}
       </div>
   </div>
 {{endif}}',

@@ -1,4 +1,4 @@
-<ips:template parameters="$accountData, $pvpStats, $season, $privacySettings, $small = false" />
+<ips:template parameters="$accountData, $pvpStats, $season, $representsGuild, $privacySettings, $small = false" />
 {{if $accountData['a_world'] != null}}
 <div id="accountOverview" {{if $small}}class="accountOverview_small ipsResponsive_hidePhone"{{endif}}>
     <ul class="ipsDataList ipsDataList_reducedSpacing cProfileFields">
@@ -19,6 +19,17 @@
             {{endif}}
             <span title="World" class="ao_tooltip"><div class="ipsDataItem_generic ipsType_break ao_disp_block_small">
                 {{$worldNames = \IPS\gw2integration\Application::$world_names;}}{$worldNames[$accountData["a_world"]]}
+            </div></span>
+        </li>
+        {{endif}}
+        {{if !empty($representsGuild)}}
+        <li class="ipsDataItem">
+            {{if !$small}}
+            <span class="ipsDataItem_generic ipsDataItem_size3 ipsType_break"><strong>Guild</strong></span>
+            {{endif}}
+            <span title="Guild" class="ao_tooltip"><div class="ipsDataItem_generic ipsType_break ao_disp_block_small">
+                <img src='http://guilds.gw2w2w.com/{$representsGuild["g_uuid"]}.svg' style="width: 20px"> 
+                [{$representsGuild["g_tag"]}] {$representsGuild["g_name"]}
             </div></span>
         </li>
         {{endif}}

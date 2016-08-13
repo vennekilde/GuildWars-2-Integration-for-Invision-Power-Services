@@ -14,7 +14,7 @@ public static function hookData() {
       'type' => 'add_inside_end',
       'content' => '{{\IPS\Output::i()->cssFiles = array_merge( \IPS\Output::i()->cssFiles, \IPS\Theme::i()->css( \'style.css\', \'gw2integration\', \'front\' ) );}}
 {{$gw2Data = new \IPS\gw2integration\GW2Data($comment->author(), true);}}
-<li style="padding-top: 10px;">{template="accountOverview" group="global" app="gw2integration" location="front" params="$gw2Data->account, $gw2Data->pvpStats, $gw2Data->seasonStats, $gw2Data->privacySettings, true"}</li>',
+<li style="padding-top: 10px;">{template="accountOverview" group="global" app="gw2integration" location="front" params="$gw2Data->account, $gw2Data->pvpStats, $gw2Data->seasonStats, $gw2Data->representsGuild, $gw2Data->privacySettings, true"}</li>',
     ),
   ),
 ), parent::hookData() );
