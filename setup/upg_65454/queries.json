@@ -1,0 +1,63 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "gw2integration_privacy_settings",
+            {
+                "name": "display_game_played_with",
+                "type": "BIT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "1",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "gw2integration_privacy_settings",
+            "display_game_played_with",
+            {
+                "name": "display_pvp_game_played_with",
+                "type": "BIT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "1",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "gw2integration_guild_membership",
+            {
+                "name": "g_representing",
+                "type": "BIT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

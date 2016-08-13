@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <language>
- <app key="gw2integration" version="65453">
+ <app key="gw2integration" version="65454">
   <word key="__app_gw2integration" js="0">GW2 Integration</word>
   <word key="profile_gw2integration_gw2integration" js="0">GW2 Integration</word>
   <word key="member__gw2integration_gw2integration" js="0">GW2 Integration</word>
   <word key="gw2_api_key" js="0">GuildWars 2 API Key</word>
   <word key="manage_api_key" js="0">Manage API Key</word>
+  <word key="guilds" js="0">Guilds</word>
   <word key="privacy_settings" js="0">Privacy Settings</word>
   <word key="general" js="0">General</word>
   <word key="pvp" js="0">PvP</word>
+  <word key="represent_guild" js="0">Represent Guild</word>
   <word key="display_account_name" js="0">Display Account Name</word>
   <word key="display_world" js="0">Display World</word>
   <word key="display_played_since" js="0">Display Played Since</word>
@@ -25,5 +27,6 @@
   <word key="display_pvp_profession_stats" js="0">Display PvP Profession Stats</word>
   <word key="display_pvp_seasons" js="0">Display PvP Seasons</word>
   <word key="display_pvp_games" js="0">Display PvP Games</word>
+  <word key="display_pvp_game_played_with" js="0">Display Game Played With</word>
  </app>
 </language>

@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <javascript app="gw2integration">
- <file javascript_app="gw2integration" javascript_location="front" javascript_path="controllers/gw2" javascript_name="ips.gw2.pvpseasons.js" javascript_type="controller" javascript_version="65453" javascript_position="1000050">/* &#13;
+ <file javascript_app="gw2integration" javascript_location="front" javascript_path="controllers/gw2" javascript_name="ips.gw2.deletekey.js" javascript_type="controller" javascript_version="65454" javascript_position="1000050"><![CDATA[/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+;( function($, _, undefined){
+	"use strict";
+	var dialog;
+    ips.controller.register('gw2integration.front.gw2.deletekey', {
+        initialize: function () {
+            this.on( 'click', this.onButtonClick );
+            var dialogOptions = {
+                "content" : "<div class='ipsPad'><h3>Do you want to delete saved GW2 Data also?<h3>\n\
+<button onclick='$(\"input[name=gw2integration-settings-delete-data]\").val(1);$(\"input[name=gw2_api_key]\").val(\"\");$(\"input[name=gw2integration-settings-delete-data]\").closest(\"form\").submit();' class='ipsButton ipsButton_primary'>Keep</button>\n\
+<button onclick='$(\"input[name=gw2integration-settings-delete-data]\").val(2);$(\"input[name=gw2_api_key]\").val(\"\");$(\"input[name=gw2integration-settings-delete-data]\").closest(\"form\").submit();' class='ipsButton'>Delete</button></div>",
+                "title" : "Delete Data Also?",
+                "size" : "narrow"
+            };
+            console.log(dialogOptions["content"]);
+            dialog = ips.ui.dialog.create( dialogOptions );
+            console.log("test");
+		},
+        
+        onButtonClick: function (e) {
+            dialog.show();
+            e.preventDefault();
+        }
+    });
+}(jQuery, _));]]></file>
+ <file javascript_app="gw2integration" javascript_location="front" javascript_path="controllers/gw2" javascript_name="ips.gw2.pvpseasons.js" javascript_type="controller" javascript_version="65454" javascript_position="1000050">/* &#13;
  * To change this license header, choose License Headers in Project Properties.&#13;
  * To change this template file, choose Tools | Templates&#13;
  * and open the template in the editor.&#13;
@@ -22,7 +51,7 @@
     });&#13;
 &#13;
 }(jQuery, _));</file>
- <file javascript_app="gw2integration" javascript_location="front" javascript_path="controllers/gw2" javascript_name="ips.gw2.tabhandler.js" javascript_type="controller" javascript_version="65453" javascript_position="1000050"><![CDATA[/* 
+ <file javascript_app="gw2integration" javascript_location="front" javascript_path="controllers/gw2" javascript_name="ips.gw2.tabhandler.js" javascript_type="controller" javascript_version="65454" javascript_position="1000050"><![CDATA[/* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -34,7 +63,7 @@
         initialize: function () {
             var tab = this.getUrlParameter("tab2");
             if(tab != null){
-                console.log("click");
+                console.log($("#" + tab));
                 $("#" + tab).click();
             }
 		},
