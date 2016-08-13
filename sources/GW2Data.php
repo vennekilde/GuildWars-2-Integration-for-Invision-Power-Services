@@ -54,11 +54,17 @@ class _GW2Data {
     public $characters;
     public $crafting;
     public $guilds;
+    public $representsGuild;
     public $games;
+    public $gamesPlayedWith;
     public $professionStats;
     public $seasonStats;
     public $pvpStats;
     
+    /**
+     *
+     * @var type \IPS\gw2integration\_PrivacySettings
+     */
     public $privacySettings;
 
     public $test;
@@ -90,93 +96,128 @@ class _GW2Data {
                 $this->seasonStats["division_name"] = $overviewData["division_name"];
                 $this->seasonStats["season_current_repeats"] = $overviewData["season_current_repeats"];
             }
+            if(isset($overviewData["g_name"])){
+                $this->representsGuild = array(
+                    "g_uuid" => $overviewData["g_uuid"],
+                    "g_name" => $overviewData["g_name"],
+                    "g_tag" => $overviewData["g_tag"]
+                );
+            }
         } else {
             $this->account = $this->gw2integration->getAccountData($this->member->member_id);
             //$this->test = $this->gw2integration->getAPIKeyForUser($this->member->member_id);
             if(isset($this->account["a_username"])){
                 $this->account["total_playtime"] = 0;
-                $characters = $this->gw2integration->getCharactersData($this->member->member_id);
-                $crafting = $this->gw2integration->getCharacterCraftingProfessions($this->member->member_id);
-                $guilds = $this->gw2integration->getGuildMembership($this->member->member_id);
-                $games = $this->gw2integration->getPVPGames($this->member->member_id, 10);
-                $professionStats = $this->gw2integration->getPVPProfessionsStats($this->member->member_id);
-                $seasonStats = $this->gw2integration->getPVPSeasonStandingWithSeasonData($this->member->member_id);
 
-                foreach($characters AS $character){
-                    $character["c_age_text"] = $this->secondsToTime($character["c_age"]);
-                    $this->characters[] = $character;
-                    $this->account["total_playtime"] += $character["c_age"];
+                if($this->privacySettings->getPrivacySetting("display_characters") || $this->privacySettings->getPrivacySetting("display_playtime")){
+                    $characters = $this->gw2integration->getCharactersData($this->member->member_id);
+                    foreach($characters AS $character){
+                        $character["c_age_text"] = $this->secondsToTime($character["c_age"]);
+                        $this->characters[] = $character;
+                        $this->account["total_playtime"] += $character["c_age"];
+                    }
+                    $this->account["total_playtime_text"] = $this->secondsToTime($this->account["total_playtime"]);
                 }
-                $this->account["total_playtime_text"] = $this->secondsToTime($this->account["total_playtime"]);
-                
+                    
+                $crafting = $this->gw2integration->getCharacterCraftingProfessions($this->member->member_id);
                 foreach($crafting AS $craftProfession){
                     $this->crafting[] = $craftProfession;
                 }
                 
-                foreach($guilds AS $guild){
-                    $this->guilds[] = $guild;
+                if($this->privacySettings->getPrivacySetting("display_guilds")){
+                    $guilds = $this->gw2integration->getGuildMembership($this->member->member_id);
+                    foreach($guilds AS $guild){
+                        $this->guilds[] = $guild;
+                    }
                 }
                 
-                foreach($games AS $game){
-                    $game["game_result_text"] = \IPS\gw2integration\Application::getPVPGameResultStringFromId($game["game_result"]);
-                    switch($game["game_result"]){
-                        case 0:
-                            $game["game_result_css_class"] = "gw2i_red_color";
-                            break;
-                        case 1:
-                            $game["game_result_css_class"] = "gw2i_blue_color";
-                            break;
-                        case 2:
-                            $game["game_result_css_class"] = "gw2i_red_color";
-                            break;
-                        case 5:
-                            $game["game_result_css_class"] = "gw2i_red_color";
-                            break;
-                        case 6:
-                            $game["game_result_css_class"] = "gw2i_blue_color";
-                            break;
-                        default:
-                            $game["game_result_css_class"] = "";
-                            break;
+                if($this->privacySettings->getPrivacySetting("display_pvp_games")){
+                    $games = $this->gw2integration->getPVPGames($this->member->member_id, 10);
+                    $gameUUIDs = array();
+                    foreach($games AS $game){
+                        $gameUUIDs[] = $game["game_uuid"];
+                        $game["game_result_text"] = \IPS\gw2integration\Application::getPVPGameResultStringFromId($game["game_result"]);
+                        switch($game["game_result"]){
+                            case 0:
+                                $game["game_result_css_class"] = "gw2i_red_color";
+                                break;
+                            case 1:
+                                $game["game_result_css_class"] = "gw2i_blue_color";
+                                break;
+                            case 2:
+                                $game["game_result_css_class"] = "gw2i_red_color";
+                                break;
+                            case 5:
+                                $game["game_result_css_class"] = "gw2i_red_color";
+                                break;
+                            case 6:
+                                $game["game_result_css_class"] = "gw2i_blue_color";
+                                break;
+                            default:
+                                $game["game_result_css_class"] = "";
+                                break;
+                        }
+                        if($this->privacySettings->getPrivacySetting("display_pvp_game_played_with")){
+                            $gamesPlayedTogether = $this->gw2integration->getPVPGamesPlayedTogether($this->member->member_id, $gameUUIDs);
+                            $this->gamesPlayedWith = array();
+                            foreach($gamesPlayedTogether AS $gamePlayedTogether){
+                                $gameUUID = $gamePlayedTogether["game_uuid"];
+                                if(!isset($this->gamesPlayedWith[$gameUUID])){
+                                    $this->gamesPlayedWith[$gameUUID] = array();
+                                }
+                                $gamePlayedTogether["member_url"] = \IPS\Http\Url::baseUrl(\IPS\Http\Url::PROTOCOL_RELATIVE) . 'index.php?/profile/' . $gamePlayedTogether['u_id'] . '-' . $gamePlayedTogether['name'] . '&tab=node_gw2integration_gw2integration&tab2=elTabPvPTab';
+                                $gamePlayedTogether["game_profession_name"] = \IPS\gw2integration\Utils\DataConversionUtils::getProfessionName($gamePlayedTogether["game_profession"]);
+                                $this->gamesPlayedWith[$gameUUID][] = $gamePlayedTogether;
+                            }
+                        }
+
+                        $game["game_duration_string"] = gmdate("i:s", $game['game_duration']);
+                        $game["game_time_since_ended_string"] = $this->getTimeDDHHMMSSStringShortLossy($game['game_time_since_ended'] * 1000);
+                        $game["game_rating_type_string"] = \IPS\gw2integration\Application::getPvPGameRatingTypeStringFromId($game["game_rating_type"]);
+                        $game["game_profession_name"] = \IPS\gw2integration\Utils\DataConversionUtils::getProfessionName($game["game_profession"]);
+                        $game["game_map_name"] = \IPS\gw2integration\Utils\DataConversionUtils::getMapName($game["game_map_id"]);
+                        $this->games[] = $game;
                     }
-                    $game["game_duration_string"] = gmdate("i:s", $game['game_duration']);
-                    $game["game_time_since_ended_string"] = $this->getTimeDDHHMMSSStringShortLossy($game['game_time_since_ended'] * 1000);
-                    $game["game_rating_type_string"] = \IPS\gw2integration\Application::getPvPGameRatingTypeStringFromId($game["game_rating_type"]);
-                    $game["game_profession_name"] = \IPS\gw2integration\Utils\DataConversionUtils::getProfessionName($game["game_profession"]);
-                    $game["game_map_name"] = \IPS\gw2integration\Utils\DataConversionUtils::getMapName($game["game_map_id"]);
-                    $this->games[] = $game;
                 }
                 //$this->games = json_encode($this->games);
-                foreach($professionStats AS $professionStat){
-                    $this->professionStats[] = $professionStat;
+                if($this->privacySettings->getPrivacySetting("display_pvp_profession_stats")){
+                    $professionStats = $this->gw2integration->getPVPProfessionsStats($this->member->member_id);
+                    foreach($professionStats AS $professionStat){
+                        $this->professionStats[] = $professionStat;
+                    }
                 }
                 
-                foreach($seasonStats AS $seasonStat){
-                    $this->seasonStats[] = $seasonStat;
+                if($this->privacySettings->getPrivacySetting("display_pvp_seasons")){
+                    $seasonStats = $this->gw2integration->getPVPSeasonStandingWithSeasonData($this->member->member_id);
+                    foreach($seasonStats AS $seasonStat){
+                        $this->seasonStats[] = $seasonStat;
+                    }
                 }
+                
+                if($this->privacySettings->getPrivacySetting("display_pvp_stats") || $this->privacySettings->getPrivacySetting("display_pvp_rank") ){
+                    $this->pvpStats = $this->gw2integration->getPVPStats($this->member->member_id);
+                    if($this->pvpStats != null){
+                        $this->pvpStats["ps_rank_floored"] = floor($this->pvpStats["ps_rank"] / 10) * 10;
 
-                $this->pvpStats = $this->gw2integration->getPVPStats($this->member->member_id);
-                if($this->pvpStats != null){
-                    $this->pvpStats["ps_rank_floored"] = floor($this->pvpStats["ps_rank"] / 10) * 10;
-                    
-                    $this->pvpStats["ps_aggregate_wins_total"] = $this->pvpStats["ps_aggregate_wins"] + $this->pvpStats["ps_aggregate_byes"];
-                    $this->pvpStats["ps_aggregate_losses_total"] = $this->pvpStats["ps_aggregate_losses"] + $this->pvpStats["ps_aggregate_forfeits"] + $this->pvpStats["ps_aggregate_desertions"];
-                    
-                    $this->pvpStats["ps_ladder_ranked_wins_total"] = 
-                            $this->pvpStats["ps_ladder_ranked_wins"] + $this->pvpStats["ps_ladder_ranked_byes"]
-                            + $this->pvpStats["ps_ladder_teamarenarated_wins"] + $this->pvpStats["ps_ladder_teamarenarated_byes"]
-                            + $this->pvpStats["ps_ladder_soloarenarated_wins"] + $this->pvpStats["ps_ladder_soloarenarated_byes"];
-                    $this->pvpStats["ps_ladder_ranked_losses_total"] = 
-                            $this->pvpStats["ps_ladder_ranked_losses"] + $this->pvpStats["ps_ladder_ranked_forfeits"] + $this->pvpStats["ps_ladder_ranked_desertions"]
-                            + $this->pvpStats["ps_ladder_teamarenarated_losses"] + $this->pvpStats["ps_ladder_teamarenarated_forfeits"] + $this->pvpStats["ps_ladder_teamarenarated_desertions"]
-                            + $this->pvpStats["ps_ladder_soloarenarated_losses"] + $this->pvpStats["ps_ladder_soloarenarated_forfeits"] + $this->pvpStats["ps_ladder_soloarenarated_desertions"];
-                    
-                    $this->pvpStats["ps_ladder_unranked_wins_total"] = 
-                            $this->pvpStats["ps_ladder_unranked_wins"] + $this->pvpStats["ps_ladder_unranked_byes"]
-                            + $this->pvpStats["ps_ladder_none_wins"] + $this->pvpStats["ps_ladder_none_byes"];
-                    $this->pvpStats["ps_ladder_unranked_losses_total"] = 
-                            $this->pvpStats["ps_ladder_unranked_losses"] + $this->pvpStats["ps_ladder_unranked_forfeits"] + $this->pvpStats["ps_ladder_unranked_desertions"]
-                            + $this->pvpStats["ps_ladder_none_losses"] + $this->pvpStats["ps_ladder_none_forfeits"] + $this->pvpStats["ps_ladder_none_desertions"];
+                        $this->pvpStats["ps_aggregate_wins_total"] = $this->pvpStats["ps_aggregate_wins"] + $this->pvpStats["ps_aggregate_byes"];
+                        $this->pvpStats["ps_aggregate_losses_total"] = $this->pvpStats["ps_aggregate_losses"] + $this->pvpStats["ps_aggregate_forfeits"] + $this->pvpStats["ps_aggregate_desertions"];
+
+                        $this->pvpStats["ps_ladder_ranked_wins_total"] = 
+                                $this->pvpStats["ps_ladder_ranked_wins"] + $this->pvpStats["ps_ladder_ranked_byes"]
+                                + $this->pvpStats["ps_ladder_teamarenarated_wins"] + $this->pvpStats["ps_ladder_teamarenarated_byes"]
+                                + $this->pvpStats["ps_ladder_soloarenarated_wins"] + $this->pvpStats["ps_ladder_soloarenarated_byes"];
+                        $this->pvpStats["ps_ladder_ranked_losses_total"] = 
+                                $this->pvpStats["ps_ladder_ranked_losses"] + $this->pvpStats["ps_ladder_ranked_forfeits"] + $this->pvpStats["ps_ladder_ranked_desertions"]
+                                + $this->pvpStats["ps_ladder_teamarenarated_losses"] + $this->pvpStats["ps_ladder_teamarenarated_forfeits"] + $this->pvpStats["ps_ladder_teamarenarated_desertions"]
+                                + $this->pvpStats["ps_ladder_soloarenarated_losses"] + $this->pvpStats["ps_ladder_soloarenarated_forfeits"] + $this->pvpStats["ps_ladder_soloarenarated_desertions"];
+
+                        $this->pvpStats["ps_ladder_unranked_wins_total"] = 
+                                $this->pvpStats["ps_ladder_unranked_wins"] + $this->pvpStats["ps_ladder_unranked_byes"]
+                                + $this->pvpStats["ps_ladder_none_wins"] + $this->pvpStats["ps_ladder_none_byes"];
+                        $this->pvpStats["ps_ladder_unranked_losses_total"] = 
+                                $this->pvpStats["ps_ladder_unranked_losses"] + $this->pvpStats["ps_ladder_unranked_forfeits"] + $this->pvpStats["ps_ladder_unranked_desertions"]
+                                + $this->pvpStats["ps_ladder_none_losses"] + $this->pvpStats["ps_ladder_none_forfeits"] + $this->pvpStats["ps_ladder_none_desertions"];
+                    }
                 }
             }
         }

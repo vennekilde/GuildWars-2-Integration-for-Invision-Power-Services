@@ -126,14 +126,22 @@ class _Application extends \IPS\Application
      * @param Integer $userId
      * @param String $apiKey
      */
-    public function setAPIKeyForUser($userId, $apiKey){
+    public function setAPIKey($userId, $apiKey){
         try{
+            //Determine if account is already linked
+            $gw2ResponseAccount = GW2APICommunicator::requestAccountInfo($apiKey);
+            $accountData = $this->getAccountDataByUsername($gw2ResponseAccount->getJsonResponse()["name"]);
+            if($accountData != null && $accountData["u_id"] != $userId){
+                throw new Exception("Account is already linked. If you think this is a mistake, please contact an Admininistrator");
+            }
+            //Get api key info
             $gw2Response = GW2APICommunicator::requestAPIKeyInfo($apiKey);
         } catch (Exception $e) {
             /*//\IPS\Session::i()->log(null,  get_class($e) . ": " . $e->getMessage() . "\n" . $e->getTraceAsString());
             return false;*/
             throw $e;
         }
+        
         $json = $gw2Response->getJsonResponse();
 
         //\IPS\Session::i()->log(null,  'Account response: [' . json_encode($json) .']' );
@@ -143,14 +151,47 @@ class _Application extends \IPS\Application
             'u_api_key_name'        => $json["name"],
             'u_api_key_permissions' => implode(",",$json["permissions"])
         );
-        
-        \IPS\Db::i()->replace( 'gw2integration_api_keys', $values, array("u_id"));
-        
-        $success = $this->resyncWithPermittedEndpoints($userId, $apiKey, $json["permissions"]);
+        $resync = false;
+        try{
+            \IPS\Db::i()->replace( 'gw2integration_api_keys', $values, array( 'u_id=?', $userId ));
+            true;
+        } catch(\Exception $e){
+            
+        }
+        if($resync){
+            $success = $this->resyncWithPermittedEndpoints($userId, $apiKey, $json["permissions"]);
+        } else {
+            $success = false;
+        }
         return $success;
     }
     
-    public function getAPIKeyForUser($userId){
+    /**
+     * 
+     * @param Integer $userId
+     * @param Boolean $fullyDelete if false, will only set key to null, if true, will delete entry
+     * @param String $apiKey
+     */
+    public function deleteAPIKey($userId, $fullyDelete = false){
+        if($fullyDelete){
+            \IPS\Db::i()->delete( 'gw2integration_api_keys', array( 'u_id=?', $userId ) );
+        } else {
+            \IPS\Db::i()->update( 'gw2integration_api_keys', array("u_api_key" => "deleted-".$userId), array( 'u_id=?', $userId ) );
+        }
+    }
+    
+    public function deleteAPIKeyAndData($userId){
+        $this->deleteAPIKey($userId, true);
+        $this->deleteAccountData($userId);
+        $this->deleteCharacterData($userId);
+        $this->deleteGuildMemberships($userId);
+        //$this->deletePVPGames($userId);
+        $this->deletePVPSeasonStanding($userId);
+        $this->deletePVPStats($userId);
+        $this->deleteProfessionsPVPStats($userId);
+    }
+    
+    public function getAPIKey($userId){
         try{
             $result = \IPS\Db::i()->select('*', 'gw2integration_api_keys', array("u_id = ?",$userId), null, 1)->first();
         } catch (\UnderflowException $e){
@@ -276,9 +317,22 @@ class _Application extends \IPS\Application
         \IPS\Db::i()->replace( 'gw2integration_account', $values, array("u_id"));
     }
     
+    function deleteAccountData($userId){
+        \IPS\Db::i()->delete( 'gw2integration_account', array( 'u_id=?', $userId ) );
+    }
+    
     function getAccountData($userId){
         try{
             $result = \IPS\Db::i()->select('*', 'gw2integration_account', array("u_id = ?",$userId), 1)->first();
+        } catch (\UnderflowException $e){
+            $result = null;
+        }
+        return $result;
+    }
+    
+    function getAccountDataByUsername($username){
+        try{
+            $result = \IPS\Db::i()->select('*', 'gw2integration_account', array("a_username = ?",$username), 1)->first();
         } catch (\UnderflowException $e){
             $result = null;
         }
@@ -293,6 +347,8 @@ class _Application extends \IPS\Application
                 LEFT JOIN '.$dbPrefix.'gw2integration_pvp_season_divisions sd ON sd.division_id = ss.season_current_division AND sd.season_uuid = ss.season_uuid
                 LEFT JOIN '.$dbPrefix.'gw2integration_account a ON a.u_id = '.  intval($userId) . '
                 LEFT JOIN '.$dbPrefix.'gw2integration_pvp_stats ps ON ps.u_id = '.  intval($userId) . '
+                LEFT JOIN '.$dbPrefix.'gw2integration_guild_membership gm ON gm.u_id = '.  intval($userId) . ' AND g_representing = 1
+                LEFT JOIN '.$dbPrefix.'gw2integration_guilds AS g on gm.g_uuid = g.g_uuid 
                 ORDER BY s.season_end DESC LIMIT 1'
                 /*Ø'SELECT a.*, ps.ps_rank, ss.season_current_division FROM gw2integration_account AS a '
                 . 'LEFT JOIN gw2integration_pvp_stats ps ON a.u_id = ps.u_id '
@@ -313,12 +369,12 @@ class _Application extends \IPS\Application
         \IPS\Db::i()->query('
                 DELETE FROM '.$dbPrefix.'gw2integration_guild_membership
                 WHERE u_id = ' . $userId . '
-                    AND g_uuid NOT IN ("' . implode("','",$guilds) . '")
+                    AND g_uuid NOT IN ("' . implode('","',$guilds) . '")
                 ');
         
         //Add guild memberships for the user
         foreach($guilds as $guildUUID){
-            \IPS\Db::i()->replace( 'gw2integration_guild_membership', array(
+            \IPS\Db::i()->insert( 'gw2integration_guild_membership', array(
                 "u_id" => $userId,
                 "g_uuid" => $guildUUID
             ), array("u_id", "g_uuid"));
@@ -326,6 +382,10 @@ class _Application extends \IPS\Application
         
         //Retrieve guild details
         $this->fetchGuildsData($guilds);
+    }
+    
+    function deleteGuildMemberships($userId){
+        \IPS\Db::i()->delete( 'gw2integration_guild_membership', array( 'u_id=?', $userId ) );
     }
     
     function getGuildMembership($userId){
@@ -362,6 +422,35 @@ class _Application extends \IPS\Application
             "g_tag" => $guildDetails["tag"]
         ), array("g_uuid"));
     }
+    
+    /**
+     * 
+     * @param type $userId
+     * @param type $guildId Set to null or not set at all to unrepresent all
+     * @return type
+     */
+    function setRepresentGuild($userId, $guildId = null){
+        $dbPrefix = \IPS\Db::i()->prefix;
+        if($guildId != null){
+            return \IPS\Db::i()->query(
+                    'UPDATE '.$dbPrefix.'gw2integration_guild_membership AS membership '
+                    . 'SET  g_representing =(CASE WHEN g_uuid = "'. addslashes($guildId) .'" THEN 1 ELSE 0 END) '
+                    . 'WHERE u_id = ' . intval($userId)
+                );
+        } else {
+            return \IPS\Db::i()->update( 'gw2integration_guild_membership', array("g_representing" => 0), array( 'u_id=?', $userId ) );
+        }
+    }
+    
+    function getRepresentedGuild($userId){
+        try {
+            $result = \IPS\Db::i()->select('*', 'gw2integration_guild_membership', array("u_id = ? AND g_representing = 1",$userId))->first();
+        } catch (\UnderflowException $e){
+            $result = null;
+        }
+        return $result;
+    }
+    
     
     
     /**
@@ -430,6 +519,12 @@ class _Application extends \IPS\Application
 		\IPS\Db::i()->replace( 'gw2integration_characters', $values, array("c_name"));
     }
     
+    function deleteCharacterData($userId){
+        \IPS\Db::i()->query( 'DELETE c, cr FROM gw2integration_characters c 
+            INNER JOIN gw2integration_character_crafting cr ON c.c_name = cr.c_name
+            WHERE c.u_id = '.intval($userId));
+    }
+    
     function getCharactersData($userId){
         $dbPrefix = \IPS\Db::i()->prefix;
         return \IPS\Db::i()->query(
@@ -447,7 +542,7 @@ class _Application extends \IPS\Application
                     'SELECT * '
                     . 'FROM '.$dbPrefix.'gw2integration_characters AS c '
                     . 'LEFT JOIN '.$dbPrefix.'gw2integration_guilds AS g on g.g_uuid = c.g_uuid '
-                    . 'WHERE c.c_name = '.mysql_real_escape_string($characterName).' LIMIT 1'
+                    . 'WHERE c.c_name = '.addslashes($characterName).' LIMIT 1'
                 );
         } catch (\UnderflowException $e){
             $result = null;
@@ -580,6 +675,19 @@ class _Application extends \IPS\Application
         }
     }
     
+    /**
+     * 
+     * @param array $values
+     */
+    function persistProfessionPVPStats($values){
+        //\IPS\Session::i()->log(null,  "persistProfessionPVPStats: " . json_encode($values));
+        \IPS\Db::i()->replace( 'gw2integration_pvp_profession_stats', $values, array("u_id", "pps_profession"));
+    }
+    
+    function deleteProfessionsPVPStats($userId){
+        \IPS\Db::i()->delete( 'gw2integration_pvp_profession_stats', array( 'u_id=?', $userId ) );
+    }
+    
     function getPVPProfessionsStats($userId){
         return \IPS\Db::i()->select('*', 'gw2integration_pvp_profession_stats', array("u_id = ?",$userId), "pps_wins DESC");
     }
@@ -612,6 +720,10 @@ class _Application extends \IPS\Application
         \IPS\Db::i()->replace( 'gw2integration_pvp_stats', $values, array("u_id"));
     }
     
+    function deletePVPStats($userId){
+        \IPS\Db::i()->delete( 'gw2integration_pvp_stats', array( 'u_id=?', $userId ) );
+    }
+    
     function getPVPStats($userId){
         try{
             $result = \IPS\Db::i()->select('*', 'gw2integration_pvp_stats', array("u_id = ?",$userId), 1)->first();
@@ -619,15 +731,6 @@ class _Application extends \IPS\Application
             $result = null;
         }
         return $result;
-    }
-    
-    /**
-     * 
-     * @param array $values
-     */
-    function persistProfessionPVPStats($values){
-        //\IPS\Session::i()->log(null,  "persistProfessionPVPStats: " . json_encode($values));
-        \IPS\Db::i()->replace( 'gw2integration_pvp_profession_stats', $values, array("u_id", "pps_profession"));
     }
     
     /**
@@ -697,13 +800,35 @@ class _Application extends \IPS\Application
         }
     }
     
-    function getPVPGames($userId, $latest){
+    /**
+     * 
+     * @param array $values
+     */
+    function persistPVPGame($values){
+        \IPS\Db::i()->replace( 'gw2integration_pvp_games', $values, array("game_uuid", "u_id"));
+    }
+    
+    function deletePVPGames($userId){
+        \IPS\Db::i()->delete( 'gw2integration_pvp_games', array( 'u_id=?', $userId ) );
+    }
+   
+    function getPVPGames($userId, $latest = 10){
         $dbPrefix = \IPS\Db::i()->prefix;
         return \IPS\Db::i()->query(
                 'SELECT game.*, s.season_name, UNIX_TIMESTAMP(game_ended) - UNIX_TIMESTAMP(game_started) as game_duration, UNIX_TIMESTAMP(UTC_TIMESTAMP) - UNIX_TIMESTAMP(game_started) as game_time_since_ended '
                 . 'FROM '.$dbPrefix.'gw2integration_pvp_games AS game '
                 . 'LEFT JOIN '.$dbPrefix.'gw2integration_pvp_seasons AS s on game.game_season_uuid = s.season_uuid '
                 . 'WHERE game.u_id = '.intval($userId).' ORDER BY game.game_ended DESC LIMIT '.intval($latest)
+            );
+    }
+    
+    function getPVPGamesPlayedTogether($userId, $gamesUUIDs){
+        $dbPrefix = \IPS\Db::i()->prefix;
+        return \IPS\Db::i()->query(
+                'SELECT game.game_uuid, game.u_id, m.name, game.game_profession '
+                . 'FROM '.$dbPrefix.'gw2integration_pvp_games AS game '
+                . 'INNER JOIN '.$dbPrefix.'core_members m ON m.member_id = game.u_id '
+                . 'WHERE game.u_id != '.intval($userId).' AND game.game_uuid IN("' . implode('","', $gamesUUIDs) . '")'
             );
     }
     
@@ -786,14 +911,6 @@ class _Application extends \IPS\Application
     
     /**
      * 
-     * @param array $values
-     */
-    function persistPVPGame($values){
-        \IPS\Db::i()->replace( 'gw2integration_pvp_games', $values, array("game_uuid", "u_id"));
-    }
-    
-    /**
-     * 
      * @param string $apiKey
      */
     function resyncPVPSeasonStandings($userId, $apiKey){
@@ -831,6 +948,10 @@ class _Application extends \IPS\Application
      */
     function persistPVPSeasonStanding($values){
         \IPS\Db::i()->replace( 'gw2integration_pvp_season_standing', $values, array("u_id", "season_uuid"));
+    }
+    
+    function deletePVPSeasonStanding($userId){
+        \IPS\Db::i()->delete( 'gw2integration_pvp_season_standing', array( 'u_id=?', $userId ) );
     }
     
     function getPVPSeasonStandingGames($userId){
