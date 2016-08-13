@@ -1,34 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <javascript app="gw2integration">
- <file javascript_app="gw2integration" javascript_location="front" javascript_path="controllers/gw2" javascript_name="ips.gw2.profileSettingsSave.js" javascript_type="controller" javascript_version="65453" javascript_position="1000050"><![CDATA[/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-;
-(function ($, _, undefined) {
-    "use strict";
-
-    ips.controller.register('gw2integration.front.gw2.tabhandler', {
-        initialize: function () {
-            $('#some-form').submit(function (e) {
-                e.preventDefault();
-
-                $('#more-inputs input').each(function () {
-                    var el = $(this);
-                    $('<input type="hidden" name="' + el.attr('name') + '" />')
-                            .val(el.val())
-                            .appendTo('#some-form');
-                });
-
-                $.get('http://yoururl.com', $('#some-form').serialize(), function (data) {
-                    alert('handle your data here: ' + data);
-                });
-
-            });
-        },
-    });
-}(jQuery, _));]]></file>
  <file javascript_app="gw2integration" javascript_location="front" javascript_path="controllers/gw2" javascript_name="ips.gw2.pvpseasons.js" javascript_type="controller" javascript_version="65453" javascript_position="1000050">/* &#13;
  * To change this license header, choose License Headers in Project Properties.&#13;
  * To change this template file, choose Tools | Templates&#13;
@@ -63,6 +34,7 @@
         initialize: function () {
             var tab = this.getUrlParameter("tab2");
             if(tab != null){
+                console.log("click");
                 $("#" + tab).click();
             }
 		},

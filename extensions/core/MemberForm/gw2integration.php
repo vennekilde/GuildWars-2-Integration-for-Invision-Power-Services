@@ -53,7 +53,7 @@ class _gw2integration
 	{		
 		\IPS\Application::applications();
 		$gw2integration = \IPS\Application::load( 'gw2integration' );
-		$apiKeyData = $gw2integration-> getAPIKeyForUser($member->member_id);
+		$apiKeyData = $gw2integration-> getAPIKey($member->member_id);
         
 		$form->add( new \IPS\Helpers\Form\Text('gw2_api_key', $apiKeyData["u_api_key"] ) );
 	}
@@ -71,7 +71,7 @@ class _gw2integration
             try {
                 \IPS\Application::applications();
                 $gw2integration = \IPS\Application::load( 'gw2integration' );
-                $gw2integration->setAPIKeyForUser($member->member_id, $values['gw2_api_key']);	
+                $gw2integration->setAPIKey($member->member_id, $values['gw2_api_key']);	
             } catch(\Exception $e){
                 
             }

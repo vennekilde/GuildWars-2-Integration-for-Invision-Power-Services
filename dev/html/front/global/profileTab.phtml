@@ -41,7 +41,7 @@
             </div>
          {{endif}}
         {{if $gw2Data->privacySettings->getPrivacySetting("display_characters")}}
-            {template="characters" group="global" app="gw2integration" location="front" params="$gw2Data->characters"}
+            {template="characters" group="global" app="gw2integration" location="front" params="$gw2Data->characters, $gw2Data->privacySettings"}
         {{endif}}
     </div>
     <div id='ipsTabs_elTabBar2_elTabPvPTab_panel' class='ipsTabs_panel ipsAreaBackground_reset'>
@@ -74,7 +74,7 @@
             </div>
         {{endif}}
         {{if $gw2Data->privacySettings->getPrivacySetting("display_pvp_games")}}
-            {template="pvpGames" group="global" app="gw2integration" location="front" params="$gw2Data->games"}
+            {template="pvpGames" group="global" app="gw2integration" location="front" params="$gw2Data->games, $gw2Data->gamesPlayedWith, $gw2Data->privacySettings"}
         {{endif}}
     </div>
 </div>

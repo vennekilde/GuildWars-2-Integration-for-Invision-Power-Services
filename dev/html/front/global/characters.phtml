@@ -1,4 +1,4 @@
-<ips:template parameters="$characters" />
+<ips:template parameters="$characters, $privacySettings" />
 {{if !empty($characters)}}
 <div id="latest_games">
     <h3>Characters</h3>
@@ -9,7 +9,9 @@
                 <th>Name</th>
                 <th>Level</th>
                 <th class="ipsResponsive_hidePhone">Created</th>
+                {{if $privacySettings->getPrivacySetting("display_playtime")}}
                 <th class="ipsResponsive_hidePhone">Playtime</th>
+                {{endif}}
                 <th>Guild</th>
                 <th class="ipsResponsive_hidePhone">Race</th>
                 <th class="ipsResponsive_hideTablet ipsResponsive_hidePhone">Gender</th>
@@ -31,9 +33,11 @@
                 <td class="ipsResponsive_hidePhone">
                     {$character["c_created"]}
                 </td>
+                {{if $privacySettings->getPrivacySetting("display_playtime")}}
                 <td class="ipsResponsive_hidePhone">
                     {$character["c_age_text"]}
                 </td>
+                {{endif}}
                 <td>
                     {{if $character["g_name"] != null }}
                         <img alt="{$character["g_name"]}" title="{$character["g_name"]}" src='http://guilds.gw2w2w.com/{$character["g_uuid"]}.svg' style="width: 24px"> 

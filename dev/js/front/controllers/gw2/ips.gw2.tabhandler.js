@@ -8,9 +8,9 @@
 	
     ips.controller.register('gw2integration.front.gw2.tabhandler', {
         initialize: function () {
-            console.log("test");
             var tab = this.getUrlParameter("tab2");
             if(tab != null){
+                console.log($("#" + tab));
                 $("#" + tab).click();
             }
 		},

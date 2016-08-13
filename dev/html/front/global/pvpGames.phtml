@@ -1,4 +1,4 @@
-<ips:template parameters="$games" />
+<ips:template parameters="$games, $gamesPlayedWith, $privacySettings" />
 {{if !empty($games)}}
 <div id="latest_games">
     <h3>Latest PvP Games</h3>
@@ -26,13 +26,21 @@
                 <td class="ipsResponsive_hidePhone"><img alt="{$game['game_map_name']}" title="{$game['game_map_name']}" src='{resource="img/pvp_map_{$game['game_map_id']}.jpg" app="gw2integration" location="front"}' height="36"/></td>
                 <td class="hideSmallPhone">
                     <div class="{$game['game_team'] == 0 ? 'gw2i_blue_color' : 'gw2i_red_color'}">{$game['game_team'] == 0 ? "Blue Team" : "Red Team"}</div>
-                    <div class="game_second_field">{$game['game_rating_type_string']}{{if $game["season_name"] != null}} - {$game["season_name"]}{{endif}}</div>
+                    {{if $privacySettings->getPrivacySetting("display_pvp_game_played_with") && isset($gamesPlayedWith[$game["game_uuid"]])}}
+                    {{$first = true;}}
+                    <div class="game_played_with">Played With
+                    {{foreach $gamesPlayedWith[$game["game_uuid"]] as $gamePlayedWith}}{$first ? ($first = false) : ", "}<a title='Played game with {$gamePlayedWith["name"]}' href="{$gamePlayedWith['member_url']}"><img alt="{$gamePlayedWith['game_profession_name']}" title="{$gamePlayedWith['game_profession_name']}" src='{resource="img/profession_{$gamePlayedWith['game_profession']}.png" app="gw2integration" location="front"}' height="16"/>{$gamePlayedWith["name"]}</a>{{endforeach}}
+                    </div>
+                    {{endif}}
                 </td>
                 <td>
                     <div>{$game['game_duration_string']}</div>
                     <div class="game_second_field">{$game['game_time_since_ended_string']} ago</div>
                 </td>
-                <td class='{$game['game_result_css_class']}'>{$game['game_result_text']}</td>
+                <td class='{$game['game_result_css_class']}'>
+                    {$game['game_result_text']}
+                    <div class="game_second_field">{$game['game_rating_type_string']}{{if $game["season_name"] != null}} - {$game["season_name"]}{{endif}}</div>
+                </td>
                 <td>
                     <div class="gw2i_red_color">{$game['game_score_red']}</div>
                     <div class="gw2i_blue_color">{$game['game_score_blue']}</div>

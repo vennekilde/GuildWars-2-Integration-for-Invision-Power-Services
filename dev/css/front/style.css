@@ -231,6 +231,8 @@ img.access_type_img {
     right: 0;
     padding-left: 15px;
     z-index: 100;
+    max-width: 115px;
+    max-height: 80px;
 }
 .access_type_fix_width {
     width: calc(100% - 115px);
