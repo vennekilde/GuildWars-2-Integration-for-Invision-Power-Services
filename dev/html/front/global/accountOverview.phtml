@@ -1,6 +1,11 @@
 <ips:template parameters="$accountData, $pvpStats, $season, $representsGuild, $privacySettings, $small = false" />
 {{if $accountData['a_world'] != null}}
-<div id="accountOverview" {{if $small}}class="accountOverview_small ipsResponsive_hidePhone"{{endif}}>
+<div id="accountOverview" 
+            data-controller="gw2integration.front.gw2.accountoverview" 
+            data-hide-alt-acc-name="{$privacySettings->getPrivacySetting('display_account_name')}" 
+            data-hide-alt-guild="{$representsGuild != null ? '1' : '0'}" 
+            {{if $small}}class="accountOverview_small ipsResponsive_hidePhone"{{endif}}
+        >
     <ul class="ipsDataList ipsDataList_reducedSpacing cProfileFields">
         {{if $privacySettings->getPrivacySetting("display_account_name")}}
         <li class="ipsDataItem">
