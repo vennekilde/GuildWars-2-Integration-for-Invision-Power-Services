@@ -14,6 +14,7 @@ public static function hookData() {
       'type' => 'add_inside_start',
       'content' => '{{$gw2Data = new \IPS\gw2integration\GW2Data($member, true);}}{{if $gw2Data->privacySettings->displayOverview() && $gw2Data->account != null}}
 {{\IPS\Output::i()->cssFiles = array_merge( \IPS\Output::i()->cssFiles, \IPS\Theme::i()->css( \'style.css\', \'gw2integration\', \'front\' ) );}}
+{{\IPS\Output::i()->jsFiles = array_merge( \IPS\Output::i()->jsFiles, \IPS\Output::i()->js( "front_gw2.js", "gw2integration" ) );}}
   <div class="ipsWidget ipsWidget_vertical cProfileSidebarBlock ipsBox ipsSpacer_bottom">
       <h2 class="ipsWidget_title ipsType_reset">GW2 Integration</h2>
       <div class="ipsWidget_inner ipsPad">

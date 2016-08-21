@@ -9,10 +9,10 @@
     ips.controller.register('gw2integration.front.gw2.accountoverview', {
         initialize: function () {
             if($(this.scope[0]).attr("data-hide-alt-acc-name") == "1"){
-                $(this.scope[0]).closest(".cAuthorPane").find("li:contains('GW2 Account')").hide();
+                $(this.scope[0]).closest(".cAuthorPane").find("li:contains('GW2 Account:')").hide();
             }
             if($(this.scope[0]).attr("data-hide-alt-guild") == "1"){
-                $(this.scope[0]).closest(".cAuthorPane").find("li:contains('GW2 Account')").hide();
+                $(this.scope[0]).closest(".cAuthorPane").find("li:contains('Guild Tag:')").hide();
             }
 		}
     });
