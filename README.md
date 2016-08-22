@@ -1,5 +1,4 @@
-# GW2Integration-IPBoard
-# GuildWars 2 WvW Score Widget
+# GuildWars 2 Integration for Invision Power Services
 Integrates the GuildWars 2 REST API with the CMS [Invision Power Services](https://invisionpower.com/ "Invision Power Services")
 
 This has been developed and tested on [http://gw2community.com/](http://gw2community.com/ "gw2community.com") and can be seen in use there
