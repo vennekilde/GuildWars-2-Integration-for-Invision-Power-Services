@@ -1,10 +1,28 @@
-/admin/applications_addon/other/shoutbox/
+/common/nbproject/private/
+# Eclipse stuff
+/.classpath
+/.project
+/.settings
 
-#netbeans
-nbproject/
-build/
-nbbuild/
-dist/
-nbdist/
-nbactions.xml
-.nb-gradle/
+# netbeans
+/nbproject
+/lib/nblibraries.properties
+/lib/CopyLibs
+
+#maven if used
+/build.xml
+/target
+
+# various other potential build files
+/build
+/bin
+/dist
+/manifest.mf
+
+# Mac filesystem dust
+/.DS_Store
+/common/target/
+/GraphicEngine/target/
+/Game/target/
+/application/target/
+/asteroids/target/
