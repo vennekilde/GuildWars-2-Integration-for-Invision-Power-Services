@@ -1,5 +1,5 @@
 <ips:template parameters="$accountData, $pvpStats, $season, $representsGuild, $privacySettings, $small = false" />
-{{if $accountData['a_world'] != null}}
+{{if $accountData['a_username'] != null}}
 <div id="accountOverview" 
         {{if $small}}
             data-controller="gw2integration.front.gw2.accountoverview" 
