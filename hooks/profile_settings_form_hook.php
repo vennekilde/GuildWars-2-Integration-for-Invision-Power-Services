@@ -5,7 +5,7 @@ class gw2integration_hook_profile_settings_form_hook extends _HOOK_CLASS_
     private $privacySettingForms = array(
         "general",
         array(
-            "display_account_name",
+            /*"display_account_name",*/
             "display_world",
             "display_played_since",
             "display_playtime",

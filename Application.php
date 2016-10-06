@@ -22,7 +22,7 @@ include __DIR__ . '/guzzle.phar';
  */
 class _Application extends \IPS\Application
 {
-    public $guildRefreshInternval = 1440; //1 day in seconds
+    public $guildRefreshInternval = 86400; //1 day in seconds
     
     const CRAFTING_DICIPLINES = array(
         "armorsmith",
@@ -253,7 +253,7 @@ class _Application extends \IPS\Application
                         }
                         break;
                     case "pvp":
-                        //Should probably do something about this, but for now, 
+                        //TODO Should probably do something about this, but for now, 
                         //any success returns success, doesn't matter if others failed
                         $result = $this->resyncPVPStatsEndpoint($userId, $apiKey);
                         $result = $this->resyncPVPGames($userId, $apiKey) ? true : $result;

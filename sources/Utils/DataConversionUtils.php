@@ -70,7 +70,8 @@ class _DataConversionUtils {
         894 => "Beta Spirit Watch",
         900 => "Beta Skyhammer",
         984 => "Courtyard",
-        1163 => "Revenge of the Capricorn"
+        1163 => "Revenge of the Capricorn",
+        1171 => "Eternal Coliseum"
     );
     
     /**
