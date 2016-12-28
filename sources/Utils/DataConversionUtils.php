@@ -74,6 +74,21 @@ class _DataConversionUtils {
         1171 => "Eternal Coliseum"
     );
     
+    public static $RATING_GROUP_TRESSHOLDS = array(
+        4 => 1951,
+        3 => 1651,
+        2 => 1351,
+        1 => 1051,
+        0 => 0,
+    );
+    public static $RATING_GROUP_NAMES = array(
+        4 => "Legendary",
+        3 => "Platinum",
+        2 => "Gold",
+        1 => "Silver",
+        0 => "Bronze",
+    );
+    
     /**
      * 
      * @param string $name
@@ -102,5 +117,17 @@ class _DataConversionUtils {
         date_default_timezone_set($reset);
          
         return $date;
+    }
+    
+    public static function getRatingGroup($seasonUUID, $rating){
+        foreach(array_keys(static::$RATING_GROUP_TRESSHOLDS) AS $ratingGroup){
+            if(static::$RATING_GROUP_TRESSHOLDS[$ratingGroup] <= $rating){
+                return $ratingGroup;
+            }
+        }
+    }
+    
+    public static function getRatingGroupName($seasonUUID, $rating){
+        return static::$RATING_GROUP_NAMES[self::getRatingGroup($seasonUUID, $rating)];
     }
 }

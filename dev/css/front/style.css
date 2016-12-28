@@ -68,10 +68,17 @@ and open the template in the editor.
     width: 100%;
     max-width: 250px;
 }
+.rating_img {
+    max-height: 100%;
+    max-width: 250px;
+}
 .division_overview_img {
     width: 100%;
     max-width: 250px;
     padding: 0px 30px 5px 30px;
+}
+.season_rating_overview_img {
+    max-width: 250px;
 }
 .division_pip,
 .division_pip_ng{
@@ -90,6 +97,12 @@ and open the template in the editor.
 .division_pip_container {
     text-align: center;
 }
+.division_rating_container{
+    text-align: center;
+    padding-top: 2px;
+    font-weight: bold;
+    font-size: 20px;
+}
 .division_tier_container {
     display: inline-flex;
     padding-right: 5px;
@@ -105,6 +118,7 @@ and open the template in the editor.
 .prev_division {
     display: inline-block;
     width: 50px;
+    height: 25px;
     cursor: pointer;
 }
 .pvp_rank_icon {

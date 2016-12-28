@@ -95,6 +95,11 @@ class _GW2Data {
                 $this->seasonStats["season_current_division"] = $overviewData["season_current_division"];
                 $this->seasonStats["division_name"] = $overviewData["division_name"];
                 $this->seasonStats["season_current_repeats"] = $overviewData["season_current_repeats"];
+                $this->seasonStats["season_current_rating"] = $overviewData["season_current_rating"];
+                if(isset($overviewData["season_current_rating"]) && strtotime($overviewData["season_start"]) >= 1481659200){
+                     $this->seasonStats["season_current_rating_group_name"] = \IPS\gw2integration\Utils\DataConversionUtils::getRatingGroupName($overviewData['season_uuid'], $overviewData['season_current_rating']);
+                     $this->seasonStats["season_current_rating_group"] = \IPS\gw2integration\Utils\DataConversionUtils::getRatingGroup($overviewData['season_uuid'], $overviewData['season_current_rating']);
+                }
             }
             if(isset($overviewData["g_name"])){
                 $this->representsGuild = array(
@@ -190,6 +195,9 @@ class _GW2Data {
                 if($this->privacySettings->getPrivacySetting("display_pvp_seasons")){
                     $seasonStats = $this->gw2integration->getPVPSeasonStandingWithSeasonData($this->member->member_id);
                     foreach($seasonStats AS $seasonStat){
+                        if(isset($seasonStat["season_current_rating"]) && strtotime($seasonStat["season_start"]) >= 1481659200){
+                             $seasonStat["season_current_rating_group"] = \IPS\gw2integration\Utils\DataConversionUtils::getRatingGroup($seasonStat['season_uuid'], $seasonStat['season_current_rating']);
+                        }
                         $this->seasonStats[] = $seasonStat;
                     }
                 }

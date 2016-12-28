@@ -122,9 +122,9 @@
                 {{if $privacySettings->getPrivacySetting("display_pvp_rank") && $pvpStats["ps_rank"] != null}}
                 <li class="ao_stat">
                     <span title="PvP Rank" style='position: relative;'>
-                        {{if $pvpStats["ps_rank_rollovers"] > 0}}<span title="Rank Rollovers"><div class='pvp_rank_rollover'>{$pvpStats["ps_rank_rollovers"]}</div></span>{{endif}}
+                        <!--{{if $pvpStats["ps_rank_rollovers"] > 0}}<span title="Rank Rollovers"><div class='pvp_rank_rollover'>{$pvpStats["ps_rank_rollovers"]}</div></span>{{endif}}-->
                         <img src='{resource="img/pvp_rank_{$pvpStats['ps_rank_floored']}.png" app="gw2integration" location="front"}'/>
-                        <div>{$pvpStats["ps_rank"]}</div>
+                        <div>{$pvpStats["ps_rank"] + $pvpStats["ps_rank_rollovers"]}</div>
                     </span>
                 </li>
                 {{endif}}

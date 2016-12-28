@@ -40,12 +40,19 @@
             </div></span>
         </li>
         {{endif}}
-        {{if $privacySettings->getPrivacySetting("display_pvp_seasons") && isset($season['season_current_division'])}}
-        <li class="ipsDataItem" style="text-align: center;">
-            <h{$small ? 4 : 3} style="margin: 5px 0px 0px 0px;font-weight: normal;">PvP {$season['division_name']}</h{$small ? 4 : 3}>
+        {{if $privacySettings->getPrivacySetting("display_pvp_seasons") && (isset($season['season_current_division']) || isset($season['season_current_rating_group']))}}
+        <li class="ipsDataItem" style="text-align: center;padding-bottom: 10px;">
+            <h{$small ? 4 : 3} style="margin: 5px 0px 5px 0px;font-weight: normal;">PvP {$season['season_current_rating_group_name']} Division</h{$small ? 4 : 3}>
             <div style="position: relative;">
-                {{if $season['season_current_repeats'] > 0}}<span title="PvP {$season['division_name']}\nDivision Repeats: x{$season['season_current_repeats']}"><div class='division_rollover'>x{$season["season_current_repeats"]}</div></span>{{endif}}
-                <img alt="PvP {$season['division_name']}" title="PvP {$season['division_name']}" class="division_overview_img" src='{resource="img/division_{$season['season_current_division']}.png" app="gw2integration" location="front"}'/>
+                {{if isset($season['season_current_rating_group'])}}
+                    <img alt="PvP {$season['season_current_rating_group_name']} Division" title="PvP {$season['season_current_rating_group_name']} Division" class="season_rating_overview_img" src='{resource="img/rating_{$season['season_current_rating_group']}.png" app="gw2integration" location="front"}'/>
+                    <div class="division_rating_container" title="PvP Season Rating">
+                        {$season['season_current_rating']}
+                    </div>
+                {{else}}
+                    {{if $season['season_current_repeats'] > 0}}<span title="PvP {$season['division_name']}\nDivision Repeats: x{$season['season_current_repeats']}"><div class='division_rollover'>x{$season["season_current_repeats"]}</div></span>{{endif}}
+                    <img alt="PvP {$season['division_name']}" title="PvP {$season['division_name']}" class="division_overview_img" src='{resource="img/division_{$season['season_current_division']}.png" app="gw2integration" location="front"}'/>
+                {{endif}}
             </div>
         </li>
         {{endif}}
@@ -111,9 +118,9 @@
                 {{if $privacySettings->getPrivacySetting("display_pvp_rank") && $pvpStats["ps_rank"] != null}}
                 <li class="ao_stat">
                     <span title="PvP Rank" style='position: relative;'>
-                        {{if $pvpStats["ps_rank_rollovers"] > 0}}<span title="Rank Rollovers"><div class='pvp_rank_rollover'>{$pvpStats["ps_rank_rollovers"]}</div></span>{{endif}}
+                        <!--{{if $pvpStats["ps_rank_rollovers"] > 0}}<span title="Rank Rollovers"><div class='pvp_rank_rollover'>{$pvpStats["ps_rank_rollovers"]}</div></span>{{endif}}-->
                         <img src='{resource="img/pvp_rank_{$pvpStats['ps_rank_floored']}.png" app="gw2integration" location="front"}'/>
-                        <div>{$pvpStats["ps_rank"]}</div>
+                        <div>{$pvpStats["ps_rank"] + $pvpStats["ps_rank_rollovers"]}</div>
                     </span>
                 </li>
                 {{endif}}
