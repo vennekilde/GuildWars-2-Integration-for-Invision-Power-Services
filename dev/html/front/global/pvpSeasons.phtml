@@ -8,9 +8,9 @@
         <h3>{$season['season_name']}</h3>
         <div style="position: relative;">
             <img class="rating_img" src='{resource="img/rating_{$season['season_current_rating_group']}.png" app="gw2integration" location="front"}'/>
-        </div>
-        <div class="division_rating_container" title="PvP Season Rating">
-            {$season['season_current_rating']}
+            <div class="division_rating_container" title="PvP Season Rating">
+                {$season['season_current_rating']}
+            </div>
         </div>
     </div>
     {{elseif $season['season_current_division'] != null}}

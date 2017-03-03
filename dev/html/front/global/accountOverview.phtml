@@ -45,10 +45,10 @@
             <h{$small ? 4 : 3} style="margin: 5px 0px 5px 0px;font-weight: normal;">PvP {$season['season_current_rating_group_name']} Division</h{$small ? 4 : 3}>
             <div style="position: relative;">
                 {{if isset($season['season_current_rating_group'])}}
-                    <img alt="PvP {$season['season_current_rating_group_name']} Division" title="PvP {$season['season_current_rating_group_name']} Division" class="season_rating_overview_img" src='{resource="img/rating_{$season['season_current_rating_group']}.png" app="gw2integration" location="front"}'/>
                     <div class="division_rating_container" title="PvP Season Rating">
                         {$season['season_current_rating']}
                     </div>
+                    <img alt="PvP {$season['season_current_rating_group_name']} Division" title="PvP {$season['season_current_rating_group_name']} Division" class="season_rating_overview_img" src='{resource="img/rating_{$season['season_current_rating_group']}.png" app="gw2integration" location="front"}'/>
                 {{else}}
                     {{if $season['season_current_repeats'] > 0}}<span title="PvP {$season['division_name']}\nDivision Repeats: x{$season['season_current_repeats']}"><div class='division_rollover'>x{$season["season_current_repeats"]}</div></span>{{endif}}
                     <img alt="PvP {$season['division_name']}" title="PvP {$season['division_name']}" class="division_overview_img" src='{resource="img/division_{$season['season_current_division']}.png" app="gw2integration" location="front"}'/>

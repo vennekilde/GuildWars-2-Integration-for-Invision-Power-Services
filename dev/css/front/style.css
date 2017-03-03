@@ -79,6 +79,7 @@ and open the template in the editor.
 }
 .season_rating_overview_img {
     max-width: 250px;
+    max-height: 100px;
 }
 .division_pip,
 .division_pip_ng{
@@ -102,7 +103,29 @@ and open the template in the editor.
     padding-top: 2px;
     font-weight: bold;
     font-size: 20px;
+    
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0px;
+    background: rgba(0, 0, 0, 0.47);
+    border-radius: 4px;
+    width: 65px;
+    padding-top: 2px;
+    margin: auto;
+    font-size: 16px;
+    line-height: 16px;
+    color: white;
+        
+    background: rgb(62, 84, 191);
 }
+.season .division_rating_container{    
+    font-size: 22px;
+    line-height: 22px;
+    bottom: 10px;
+    width: 80px;
+}
+
 .division_tier_container {
     display: inline-flex;
     padding-right: 5px;
